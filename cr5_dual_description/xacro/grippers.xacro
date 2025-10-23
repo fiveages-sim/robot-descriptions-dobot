@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<robot name="DobotCR5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="type" default="empty"/>
+
+  <!-- 根据type参数决定使用哪种夹爪 -->
+  <xacro:if value="${'$(arg type)' == 'robotiq85'}">
+    <xacro:include filename="$(find robotiq_description)/xacro/2F85.xacro"/>
+    <xacro:Robotiq85 name="left"/>
+    <xacro:Robotiq85 name="right"/>
+    <joint name="left_gripper_fixed" type="fixed">
+      <parent link="left_Link6"/>
+      <child link="left_gripper_base"/>
+    </joint>
+    <joint name="right_gripper_fixed" type="fixed">
+      <parent link="right_Link6"/>
+      <child link="right_gripper_base"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
+    <xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
+    <xacro:AG2F90-C name="left" use_flange="true" pad="soft"/>
+    <xacro:AG2F90-C name="right" use_flange="true" pad="soft"/>
+    <joint name="left_gripper_fixed" type="fixed">
+      <parent link="left_Link6"/>
+      <child link="left_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+    <joint name="right_gripper_fixed" type="fixed">
+      <parent link="right_Link6"/>
+      <child link="right_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+  </xacro:if>
+
+</robot>

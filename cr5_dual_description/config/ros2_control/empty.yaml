@@ -1,0 +1,52 @@
+# This config file is used by ros2_control for CR5 Dual Arm Robot
+controller_manager:
+  ros__parameters:
+    update_rate: 60  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ocs2_arm_controller:
+      type: ocs2_arm_controller/Ocs2ArmController
+
+# OCS2 Arm Controller Configuration
+ocs2_arm_controller:
+  ros__parameters:
+    # Joint configuration
+    update_rate: 60  # Hz
+    info_file_name: task  # Use task.info file
+    joints:
+      # Left arm joints (6 DOF)
+      - left_joint1
+      - left_joint2
+      - left_joint3
+      - left_joint4
+      - left_joint5
+      - left_joint6
+      # Right arm joints (6 DOF)
+      - right_joint1
+      - right_joint2
+      - right_joint3
+      - right_joint4
+      - right_joint5
+      - right_joint6
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    robot_name: cr5_dual
+
+    future_time_offset: 2.0
+
+    # Control parameters
+    # home_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
+    home_pos: [ 2.0, 1.5, 1.3, -2.8, -1.68, 1.4,
+                -1.8, -0.7, -1.5, 1.8, 0.3, -1.0 ]
+    
+    # rest_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
+    rest_pos: [ 2.0, 1.5, 1.3, -2.8, -1.68, 0.0,
+                -1.8, -0.7, -1.5, 1.8, 0.3, 0.0 ]
