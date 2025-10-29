@@ -27,7 +27,7 @@
 
             <xacro:cr5_interfaces name="left"/>
 
-            <xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
+            <xacro:if value="${'$(arg type)' != 'empty'}">
                 <joint name="left_gripper_joint">
                     <command_interface name="position"/>
                     <state_interface name="position">
@@ -49,7 +49,7 @@
 
             <xacro:cr5_interfaces name="right"/>
 
-            <xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
+            <xacro:if value="${'$(arg type)' != 'empty'}">
                 <joint name="right_gripper_joint">
                     <command_interface name="position"/>
                     <state_interface name="position">
@@ -60,21 +60,60 @@
         </ros2_control>
     </xacro:if>
 
-    <xacro:unless value="${'$(arg ros2_control_hardware_type)' == 'real'}">
-        <!-- Unified ros2_control system -->
+    <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'isaac'}">
+        <!-- Isaac Sim: Use two separate topic_based systems for left and right arms -->
+        <ros2_control name="cr5_left_system" type="system">
+            <hardware>
+                <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
+                <param name="joint_commands_topic">/isaac_left/joint_command</param>
+                <param name="joint_states_topic">/isaac_left/joint_states</param>
+                <param name="joint_name_prefix">left_</param>
+            </hardware>
+
+            <!-- 左臂接口 -->
+            <xacro:cr5_interfaces name="left"/>
+
+            <!-- 左臂夹爪接口 -->
+            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
+                <xacro:ag2f90c_interfaces name="left"/>
+            </xacro:if>
+
+            <xacro:if value="${'$(arg type)' == 'robotiq85'}">
+                <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
+                <xacro:robotiq_2f85_interfaces name="left"/>
+            </xacro:if>
+        </ros2_control>
+
+        <ros2_control name="cr5_right_system" type="system">
+            <hardware>
+                <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
+                <param name="joint_commands_topic">/isaac_right/joint_command</param>
+                <param name="joint_states_topic">/isaac_right/joint_states</param>
+                <param name="joint_name_prefix">right_</param>
+            </hardware>
+
+            <!-- 右臂接口 -->
+            <xacro:cr5_interfaces name="right"/>
+
+            <!-- 右臂夹爪接口 -->
+            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
+                <xacro:ag2f90c_interfaces name="right"/>
+            </xacro:if>
+
+            <xacro:if value="${'$(arg type)' == 'robotiq85'}">
+                <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
+                <xacro:robotiq_2f85_interfaces name="right"/>
+            </xacro:if>
+        </ros2_control>
+    </xacro:if>
+
+    <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'gz'}">
+        <!-- Gazebo Simulator: Unified ros2_control system -->
         <ros2_control name="cr5_dual_system" type="system">
             <hardware>
-                <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'gz'}">
-                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-                </xacro:if>
-                <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'mock_components'}">
-                    <plugin>mock_components/GenericSystem</plugin>
-                </xacro:if>
-                <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'isaac'}">
-                    <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
-                    <param name="joint_commands_topic">/isaac/joint_command</param>
-                    <param name="joint_states_topic">/isaac/joint_states</param>
-                </xacro:if>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
             </hardware>
 
             <!-- 左臂接口 -->
@@ -106,5 +145,33 @@
             </gazebo>
             <!-- Gazebo configuration for CR5 dual arm -->
         </xacro:if>
-    </xacro:unless>
+    </xacro:if>
+
+    <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'mock_components'}">
+        <!-- Mock Components: Unified ros2_control system -->
+        <ros2_control name="cr5_dual_system" type="system">
+            <hardware>
+                <plugin>mock_components/GenericSystem</plugin>
+            </hardware>
+
+            <!-- 左臂接口 -->
+            <xacro:cr5_interfaces name="left"/>
+
+            <!-- 右臂接口 -->
+            <xacro:cr5_interfaces name="right"/>
+
+            <!-- 夹爪接口 - 参考CR5的模块化设计 -->
+            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
+                <xacro:ag2f90c_interfaces name="left"/>
+                <xacro:ag2f90c_interfaces name="right"/>
+            </xacro:if>
+
+            <xacro:if value="${'$(arg type)' == 'robotiq85'}">
+                <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
+                <xacro:robotiq_2f85_interfaces name="left"/>
+                <xacro:robotiq_2f85_interfaces name="right"/>
+            </xacro:if>
+        </ros2_control>
+    </xacro:if>
 </robot>
