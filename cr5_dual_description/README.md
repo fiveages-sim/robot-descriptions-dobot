@@ -29,8 +29,13 @@ colcon build --packages-up-to cr5_dual_description --symlink-install
 * With ChangingTek AG2F90-C Gripper
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F90-C-Soft"
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F90-C"
   ```
+* With AG2F120S
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F120S"
+    ```
 
 ## 3. OCS2 Demo
 ### 3.1 Official OCS2 Mobile Manipulator Demo
@@ -46,6 +51,11 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5_dual
   source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="AG2F90-C-Soft"
   ```
+
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="AG2F120S"
+  ```
 * Gazebo
   ```bash
   source ~/ros2_ws/install/setup.bash
@@ -54,7 +64,17 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5_dual
 * Isaac Sim
   ```bash
   source ~/ros2_ws/install/setup.bash
+  ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F90-C"
+  ```
+
+  ```bash
+  source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F90-C-Soft"
+  ```
+
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F120S"
   ```
 ## 4. Real Dobot CR5 Deploy
 
