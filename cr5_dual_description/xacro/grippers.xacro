@@ -35,7 +35,7 @@
     </joint>
   </xacro:if>
 
-  <xacro:if value="${'$(arg type)' == 'AG2F90-Ct'}">
+  <xacro:if value="${'$(arg type)' == 'AG2F90-C'}">
     <xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
     <xacro:AG2F90-C name="left" use_flange="true"/>
     <xacro:AG2F90-C name="right" use_flange="true"/>
