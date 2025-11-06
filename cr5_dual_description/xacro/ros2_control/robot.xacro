@@ -177,7 +177,7 @@
             <xacro:cr5_interfaces name="right"/>
 
             <!-- 夹爪接口 - 参考CR5的模块化设计 -->
-            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'  or '$(arg type)' == 'left_arm'}">
                 <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
                 <xacro:ag2f90c_interfaces name="left"/>
                 <xacro:ag2f90c_interfaces name="right"/>
