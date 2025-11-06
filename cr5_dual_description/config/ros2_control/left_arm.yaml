@@ -1,0 +1,76 @@
+# This config file is used by ros2_control for CR5 Dual Arm Robot
+controller_manager:
+  ros__parameters:
+    update_rate: 60  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ocs2_arm_controller:
+      type: ocs2_arm_controller/Ocs2ArmController
+
+    # Gripper controllers (AG2F90-C-Soft by default)
+    left_hand_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+    right_hand_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+# OCS2 Arm Controller Configuration
+ocs2_arm_controller:
+  ros__parameters:
+    # Joint configuration
+    update_rate: 60  # Hz
+    mpc_frequency: 30.0
+    info_file_name: task  # Use task.info file
+    joints:
+      # Left arm joints (6 DOF)
+      - left_joint1
+      - left_joint2
+      - left_joint3
+      - left_joint4
+      - left_joint5
+      - left_joint6
+      # Right arm joints (6 DOF)
+      - right_joint1
+      - right_joint2
+      - right_joint3
+      - right_joint4
+      - right_joint5
+      - right_joint6
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    robot_name: cr5_dual
+
+    future_time_offset: 1.1
+
+    # Control parameters
+    # home_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
+    home_pos: [ 2.1519911227695774, 0.5782979518398085, 1.8800245044533186, 0.7719719900296106, 2.120467240171125, -1.57,
+                -2.1519911227695774, -0.5782979518398085, -1.8800245044533186, -0.7719719900296106, -2.120467240171125, -1.57 ]
+    
+    # rest_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
+    rest_pos: [ 1.3447057466942642, 0.9200135210015483, 1.223138332514968, 0.7967627461708476, -0.19084332725780095, 0.0,
+                -1.3447057466942642, -0.9200135210015483, -1.223138332514968, -0.7967627461708476, 0.19084332725780095, 0.0, ]
+
+# Left Hand Controller (AG2F90-C-Soft)
+left_hand_controller:
+  ros__parameters:
+    joint: left_gripper_joint
+    use_effort_interface: false
+    # force_feedback_ratio: 0.1
+    # force_threshold: 1.5
+
+# Right Hand Controller (AG2F90-C-Soft)
+right_hand_controller:
+  ros__parameters:
+    joint: right_gripper_joint
+    use_effort_interface: false
+    # force_feedback_ratio: 0.1
+    # force_threshold: 1.5
