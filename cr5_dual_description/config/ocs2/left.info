@@ -4,13 +4,18 @@ model_information {
 
   ; motion joints in the URDF to consider fixed
   removeJoints {
+    [0]  "right_joint1",
+    [1]  "right_joint2",
+    [2]  "right_joint3",
+    [3]  "right_joint4",
+    [4]  "right_joint5",
+    [5]  "right_joint6"
   }
 
   ; base frame of the robot (from URDF)
   baseFrame                       "base_link"
   ; end-effector frames for dual arms (from URDF) - using TCP (Tool Center Point)
   eeFrame                         "left_tcp"
-  eeFrame1                        "right_tcp"
 }
 
 model_settings
@@ -131,12 +136,6 @@ initialState
     (3,0)   0.0     ; left_joint4
     (4,0)   0.0     ; left_joint5
     (5,0)   0.0     ; left_joint6
-    (6,0)   0.0     ; right_joint1
-    (7,0)   0.0     ; right_joint2
-    (8,0)   0.0     ; right_joint3
-    (9,0)   0.0     ; right_joint4
-    (10,0)  0.0     ; right_joint5
-    (11,0)  0.0     ; right_joint6
   }
 }
 
@@ -187,56 +186,28 @@ inputCost
       (3,3)  1.0  ; left_joint4 velocity
       (4,4)  1.0  ; left_joint5 velocity
       (5,5)  1.0  ; left_joint6 velocity
-      (6,6)  1.0  ; right_joint1 velocity
-      (7,7)  1.0  ; right_joint2 velocity
-      (8,8)  1.0  ; right_joint3 velocity
-      (9,9)  1.0  ; right_joint4 velocity
-      (10,10) 1.0  ; right_joint5 velocity
-      (11,11) 1.0  ; right_joint6 velocity
     }
   }
 }
 
+
 endEffector
 {
   ; end effector quadratic penalty scaling
-  ; Using dual arm mode like astribot_s1
-  dualArmMode      true
-
-  leftArm
-  {
-    muPosition      5.0
-    muOrientation   2.5
-  }
-
-  rightArm
-  {
-    muPosition      5.0
-    muOrientation   2.5
-  }
+  muPosition      5.0
+  muOrientation    2.5
 }
 
 finalEndEffector
 {
-  dualArmMode      true
-
-  leftArm
-  {
-    muPosition      5.0
-    muOrientation   2.5
-  }
-
-  rightArm
-  {
-    muPosition      5.0
-    muOrientation   2.5
-  }
+  muPosition      5.0
+  muOrientation    2.5
 }
 
 selfCollision
 { 
   ; activate self-collision constraint
-  activate  true
+  activate  false
 
   ; Self Collision raw object pairs
   collisionObjectPairs
@@ -340,12 +311,6 @@ jointVelocityLimits
       (3,0)  -1.57     ; left_joint4 [rad/s]
       (4,0)  -1.57     ; left_joint5 [rad/s]
       (5,0)  -1.57     ; left_joint6 [rad/s]
-      (6,0)  -1.57     ; right_joint1 [rad/s]
-      (7,0)  -1.57     ; right_joint2 [rad/s]
-      (8,0)  -1.57     ; right_joint3 [rad/s]
-      (9,0)  -1.57     ; right_joint4 [rad/s]
-      (10,0) -1.57     ; right_joint5 [rad/s]
-      (11,0) -1.57     ; right_joint6 [rad/s]
     }
   }
 
@@ -388,12 +353,6 @@ jointVelocityLimits
       (3,0)  1.57      ; left_joint4 [rad/s]
       (4,0)  1.57      ; left_joint5 [rad/s]
       (5,0)  1.57      ; left_joint6 [rad/s]
-      (6,0)  1.57      ; right_joint1 [rad/s]
-      (7,0)  1.57      ; right_joint2 [rad/s]
-      (8,0)  1.57      ; right_joint3 [rad/s]
-      (9,0)  1.57      ; right_joint4 [rad/s]
-      (10,0) 1.57      ; right_joint5 [rad/s]
-      (11,0) 1.57      ; right_joint6 [rad/s]
     }
   }
 }

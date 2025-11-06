@@ -13,16 +13,13 @@ controller_manager:
     left_hand_controller:
       type: adaptive_gripper_controller/AdaptiveGripperController
 
-    right_hand_controller:
-      type: adaptive_gripper_controller/AdaptiveGripperController
-
 # OCS2 Arm Controller Configuration
 ocs2_arm_controller:
   ros__parameters:
     # Joint configuration
     update_rate: 60  # Hz
     mpc_frequency: 30.0
-    info_file_name: task  # Use task.info file
+    info_file_name: left  # Use task.info file
     joints:
       # Left arm joints (6 DOF)
       - left_joint1
@@ -31,13 +28,6 @@ ocs2_arm_controller:
       - left_joint4
       - left_joint5
       - left_joint6
-      # Right arm joints (6 DOF)
-      - right_joint1
-      - right_joint2
-      - right_joint3
-      - right_joint4
-      - right_joint5
-      - right_joint6
 
     command_interfaces:
       - position
@@ -51,26 +41,16 @@ ocs2_arm_controller:
     # Control parameters
     # home_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
     #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
-    home_pos: [ 2.1519911227695774, 0.5782979518398085, 1.8800245044533186, 0.7719719900296106, 2.120467240171125, -1.57,
-                -2.1519911227695774, -0.5782979518398085, -1.8800245044533186, -0.7719719900296106, -2.120467240171125, -1.57 ]
+    home_pos: [ 1.862664103107961, 0.8990284407145777, 1.23546624127555, 1.507392028165063, 0.2953757854150009, -2.003376344801695]
     
     # rest_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
     #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
-    rest_pos: [ 1.3447057466942642, 0.9200135210015483, 1.223138332514968, 0.7967627461708476, -0.19084332725780095, 0.0,
-                -1.3447057466942642, -0.9200135210015483, -1.223138332514968, -0.7967627461708476, 0.19084332725780095, 0.0, ]
+    rest_pos: [ 1.821591635054889, 0.2691931006968403, 2.005251609651286, 1.1064247702277883, 0.680543440980729, -1.7718580346524049 ]
 
 # Left Hand Controller (AG2F90-C-Soft)
 left_hand_controller:
   ros__parameters:
     joint: left_gripper_joint
-    use_effort_interface: false
-    # force_feedback_ratio: 0.1
-    # force_threshold: 1.5
-
-# Right Hand Controller (AG2F90-C-Soft)
-right_hand_controller:
-  ros__parameters:
-    joint: right_gripper_joint
     use_effort_interface: false
     # force_feedback_ratio: 0.1
     # force_threshold: 1.5

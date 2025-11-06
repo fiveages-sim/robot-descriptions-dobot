@@ -35,7 +35,39 @@
     </joint>
   </xacro:if>
 
-  <xacro:if value="${'$(arg type)' == 'AG2F90-Ct'}">
+  <xacro:if value="${'$(arg type)' == 'AG2F90-C'}">
+    <xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
+    <xacro:AG2F90-C name="left" use_flange="true"/>
+    <xacro:AG2F90-C name="right" use_flange="true"/>
+    <joint name="left_gripper_fixed" type="fixed">
+      <parent link="left_Link6"/>
+      <child link="left_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+    <joint name="right_gripper_fixed" type="fixed">
+      <parent link="right_Link6"/>
+      <child link="right_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:if value="${'$(arg type)' == 'left_arm'}">
+    <xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
+    <xacro:AG2F90-C name="left" use_flange="true"/>
+    <xacro:AG2F90-C name="right" use_flange="true"/>
+    <joint name="left_gripper_fixed" type="fixed">
+      <parent link="left_Link6"/>
+      <child link="left_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+    <joint name="right_gripper_fixed" type="fixed">
+      <parent link="right_Link6"/>
+      <child link="right_flange"/>
+      <origin rpy="0 0 ${PI/2}"/>
+    </joint>
+  </xacro:if>
+
+  <xacro:if value="${'$(arg type)' == 'right_arm'}">
     <xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
     <xacro:AG2F90-C name="left" use_flange="true"/>
     <xacro:AG2F90-C name="right" use_flange="true"/>
