@@ -100,12 +100,12 @@ cartesian_motion_controller:
 
     # PD gains for Cartesian control (translational and rotational)
     pd_gains:
-      trans_x: {p: 1.0, d: 0.0}  # Translation X axis
-      trans_y: {p: 1.0, d: 0.0}  # Translation Y axis
-      trans_z: {p: 1.0, d: 0.0}  # Translation Z axis
-      rot_x: {p: 0.5, d: 0.0}   # Rotation X axis
-      rot_y: {p: 0.5, d: 0.0}   # Rotation Y axis
-      rot_z: {p: 0.5, d: 0.0}   # Rotation Z axis
+      trans_x: {p: 5.0, d: 0.0}  # Translation X axis
+      trans_y: {p: 5.0, d: 0.0}  # Translation Y axis
+      trans_z: {p: 5.0, d: 0.0}  # Translation Z axis
+      rot_x: {p: 10.0, d: 0.0}   # Rotation X axis
+      rot_y: {p: 10.0, d: 0.0}   # Rotation Y axis
+      rot_z: {p: 10.0, d: 0.0}   # Rotation Z axis
 
 # Interactive marker handle configuration
 motion_control_handle:

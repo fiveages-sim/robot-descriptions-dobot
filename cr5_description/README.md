@@ -74,7 +74,26 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac type:=AG2F90-C-Soft
   ```
 
-## 4. Real Dobot CR5 Deploy
+
+## 4. Cartesian Controllers
+### 4.1 Build
+```bash
+cd ~/ros2_ws
+colcon build --packages-up-to cartesian_compliance_controller cartesian_controller_handles --symlink-install
+```
+
+### 4.2 Cartesian Motion Controller
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 launch cr5_description cartesian_motion_controller.launch.py
+```
+
+```bash
+source ~/ros2_ws/install/setup.bash
+ros2 launch cr5_description cartesian_motion_controller.launch.py hardware:=real
+```
+
+## 5. Real Dobot CR5 Deploy
 
 * Launch Dobot ROS2 Control
   ```bash
