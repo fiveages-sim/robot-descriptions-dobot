@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz_common/Displays
-    Help Height: 78
+    Help Height: 138
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -9,7 +9,7 @@ Panels:
         - /TF1/Frames1
         - /TF1/Tree1
       Splitter Ratio: 0.5
-    Tree Height: 542
+    Tree Height: 656
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -28,6 +28,10 @@ Panels:
     Name: Time
     SyncMode: 0
     SyncSource: ""
+  - Class: arms_rviz_control_plugin/GripperControlPanel
+    Name: GripperControlPanel
+    left_gripper_open: false
+    right_gripper_open: false
 Visualization Manager:
   Class: ""
   Displays:
@@ -102,6 +106,74 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        eef:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        flange:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ft_sensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        gripper_base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_Pad_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_in_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_up_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_1_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_2_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_Pad_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_in_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_up_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         world:
           Alpha: 1
           Show Axes: false
@@ -135,6 +207,34 @@ Visualization Manager:
           Value: true
         base_link:
           Value: false
+        eef:
+          Value: true
+        flange:
+          Value: true
+        ft_sensor:
+          Value: true
+        gripper_base:
+          Value: true
+        left_1_link:
+          Value: true
+        left_2_link:
+          Value: true
+        left_Pad_link:
+          Value: true
+        left_in_link:
+          Value: true
+        left_up_link:
+          Value: true
+        right_1_link:
+          Value: true
+        right_2_link:
+          Value: true
+        right_Pad_link:
+          Value: true
+        right_in_link:
+          Value: true
+        right_up_link:
+          Value: true
         world:
           Value: true
       Marker Scale: 1
@@ -151,7 +251,27 @@ Visualization Manager:
                   Link4:
                     Link5:
                       Link6:
-                        {}
+                        ft_sensor:
+                          flange:
+                            gripper_base:
+                              eef:
+                                {}
+                              left_1_link:
+                                left_in_link:
+                                  {}
+                                left_up_link:
+                                  left_Pad_link:
+                                    {}
+                              left_2_link:
+                                {}
+                              right_1_link:
+                                right_in_link:
+                                  {}
+                                right_up_link:
+                                  right_Pad_link:
+                                    {}
+                              right_2_link:
+                                {}
       Update Interval: 0
       Value: true
     - Class: rviz_default_plugins/InteractiveMarkers
@@ -162,6 +282,25 @@ Visualization Manager:
       Show Axes: false
       Show Descriptions: true
       Show Visual Aids: false
+      Value: true
+    - Accept NaN Values: false
+      Alpha: 1
+      Arrow Width: 0.5
+      Class: rviz_default_plugins/Wrench
+      Enabled: true
+      Force Arrow Scale: 2
+      Force Color: 204; 51; 51
+      History Length: 1
+      Name: Wrench
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /six_force_sensor/wrench
+      Torque Arrow Scale: 2
+      Torque Color: 204; 204; 51
       Value: true
   Enabled: true
   Global Options:
@@ -209,7 +348,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.2518506050109863
+      Distance: 2.0289344787597656
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -224,18 +363,20 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3253985345363617
+      Pitch: 0.15539859235286713
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.625403881072998
+      Yaw: 4.9554033279418945
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 846
+  GripperControlPanel:
+    collapsed: false
+  Height: 1363
   Hide Left Dock: false
   Hide Right Dock: true
-  QMainWindow State: 000000ff00000000fd000000040000000000000156000002acfc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000005d00fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000003f000002ac000000cc00fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261000000010000010f000002acfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003f000002ac000000a900fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004b00000003efc0100000002fb0000000800540069006d00650100000000000004b00000026f00fffffffb0000000800540069006d0065010000000000000450000000000000000000000354000002ac00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000400000000000001f400000449fc0200000009fb0000001200530065006c0065006300740069006f006e00000001e10000009b000000b200fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c00610079007301000000700000038c0000018600fffffffb0000002000730065006c0065006300740069006f006e00200062007500660066006500720200000138000000aa0000023a00000294fb00000014005700690064006500530074006500720065006f02000000e6000000d2000003ee0000030bfb0000000c004b0069006e0065006300740200000186000001060000030c00000261fb0000002600470072006900700070006500720043006f006e00740072006f006c00500061006e0065006c0100000408000000b1000000b100ffffff000000010000010f000002acfc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000003f000002ac0000013800fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000009210000005efc0100000002fb0000000800540069006d00650100000000000009210000047a00fffffffb0000000800540069006d00650100000000000004500000000000000000000007210000044900000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Selection:
     collapsed: false
   Time:
@@ -244,6 +385,6 @@ Window Geometry:
     collapsed: false
   Views:
     collapsed: true
-  Width: 1200
-  X: 66
-  Y: 60
+  Width: 2337
+  X: 132
+  Y: 64

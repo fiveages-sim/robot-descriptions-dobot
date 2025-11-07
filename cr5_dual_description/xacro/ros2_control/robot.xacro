@@ -19,10 +19,11 @@
             <hardware>
                 <plugin>dobot_ros2_control/DobotHardware</plugin>
                 <param name="robot_ip">192.168.5.33</param>
-                <param name="gain">200</param>
+                <param name="gain">500</param>
                 <param name="aheadtime">20</param>
-                <param name="speed_factor">100</param>
-                <param name="servo_time">0.3</param>
+                <param name="speed_factor">20</param>
+                <param name="servo_time">0.05</param>
+                <param name="gripper_read_frequency_divider">50</param>
             </hardware>
 
             <xacro:cr5_interfaces name="left"/>
@@ -35,29 +36,40 @@
                     </state_interface>
                 </joint>
             </xacro:if>
+
+            <sensor name="left_ft_sensor">
+                <state_interface name="force_x"/>
+                <state_interface name="force_y"/>
+                <state_interface name="force_z"/>
+                <state_interface name="torque_x"/>
+                <state_interface name="torque_y"/>
+                <state_interface name="torque_z"/>
+            </sensor>
         </ros2_control>
 
-        <ros2_control name="cr5_right_system" type="system">
-            <hardware>
-                <plugin>dobot_ros2_control/DobotHardware</plugin>
-                <param name="robot_ip">192.168.5.34</param>
-                <param name="gain">200</param>
-                <param name="aheadtime">20</param>
-                <param name="speed_factor">100</param>
-                <param name="servo_time">0.3</param>
-            </hardware>
+        <xacro:unless value="${'$(arg type)' == 'left_arm'}">
+            <ros2_control name="cr5_right_system" type="system">
+                <hardware>
+                    <plugin>dobot_ros2_control/DobotHardware</plugin>
+                    <param name="robot_ip">192.168.5.34</param>
+                    <param name="gain">200</param>
+                    <param name="aheadtime">20</param>
+                    <param name="speed_factor">100</param>
+                    <param name="servo_time">0.3</param>
+                </hardware>
 
-            <xacro:cr5_interfaces name="right"/>
+                <xacro:cr5_interfaces name="right"/>
 
-            <xacro:if value="${'$(arg type)' != 'empty'}">
-                <joint name="right_gripper_joint">
-                    <command_interface name="position"/>
-                    <state_interface name="position">
-                        <param name="initial_value">0</param>
-                    </state_interface>
-                </joint>
-            </xacro:if>
-        </ros2_control>
+                <xacro:if value="${'$(arg type)' != 'empty'}">
+                    <joint name="right_gripper_joint">
+                        <command_interface name="position"/>
+                        <state_interface name="position">
+                            <param name="initial_value">0</param>
+                        </state_interface>
+                    </joint>
+                </xacro:if>
+            </ros2_control>
+        </xacro:unless>
     </xacro:if>
 
     <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'isaac'}">
@@ -177,7 +189,8 @@
             <xacro:cr5_interfaces name="right"/>
 
             <!-- 夹爪接口 - 参考CR5的模块化设计 -->
-            <xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'  or '$(arg type)' == 'left_arm'}">
+            <xacro:if
+                    value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'  or '$(arg type)' == 'left_arm'}">
                 <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
                 <xacro:ag2f90c_interfaces name="left"/>
                 <xacro:ag2f90c_interfaces name="right"/>

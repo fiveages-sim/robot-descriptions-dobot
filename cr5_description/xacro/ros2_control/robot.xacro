@@ -30,11 +30,12 @@
       </xacro:if>
       <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'real'}">
         <plugin>dobot_ros2_control/DobotHardware</plugin>
-        <param name="robot_ip">192.168.5.38</param>
-        <param name="gain">800</param>
-        <param name="aheadtime">50</param>
-        <param name="speed_factor">100</param>
+        <param name="robot_ip">192.168.5.33</param>
+        <param name="gain">500</param>
+        <param name="aheadtime">20</param>
+        <param name="speed_factor">20</param>
         <param name="servo_time">0.05</param>
+        <param name="gripper_read_frequency_divider">50</param>
       </xacro:if>
     </hardware>
 
@@ -44,7 +45,7 @@
     <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'real'}">
       <!-- 真实硬件模式：使用简单的gripper joint，仅有位置接口 -->
 
-      <xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
+      <xacro:if value="${'$(arg type)' != 'empty'}">
         <joint name="gripper_joint">
           <command_interface name="position"/>
           <state_interface name="position">
@@ -52,6 +53,16 @@
           </state_interface>
         </joint>
       </xacro:if>
+
+      <!-- 六维力传感器定义 -->
+      <sensor name="ft_sensor">
+        <state_interface name="force_x"/>
+        <state_interface name="force_y"/>
+        <state_interface name="force_z"/>
+        <state_interface name="torque_x"/>
+        <state_interface name="torque_y"/>
+        <state_interface name="torque_z"/>
+      </sensor>
     </xacro:if>
 
     <xacro:unless value="${'$(arg ros2_control_hardware_type)' == 'real'}">

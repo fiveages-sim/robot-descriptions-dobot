@@ -56,9 +56,9 @@
     <xacro:AG2F90-C name="left" use_flange="true"/>
     <xacro:AG2F90-C name="right" use_flange="true"/>
     <joint name="left_gripper_fixed" type="fixed">
-      <parent link="left_Link6"/>
+      <parent link="left_ft_sensor"/>
       <child link="left_flange"/>
-      <origin rpy="0 0 ${PI/2}"/>
+      <origin rpy="0 0 ${-PI/2}"/>
     </joint>
     <joint name="right_gripper_fixed" type="fixed">
       <parent link="right_Link6"/>

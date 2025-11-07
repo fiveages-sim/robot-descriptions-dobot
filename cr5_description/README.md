@@ -40,7 +40,11 @@ colcon build --packages-up-to cr5_description --symlink-install
   ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="AG2F90-C"
   ```
   ![cr5 ag2f90-c](../.images/dobot_cr5_ag2f90-c.png)
-
+* AG2F90-C with Force-Torque Sensor
+   ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="ft-90c"
+  ```
 ## 3. OCS2 Demo
 
 ### 3.1 Official OCS2 Mobile Manipulator Demo
@@ -74,26 +78,7 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac type:=AG2F90-C-Soft
   ```
 
-
-## 4. Cartesian Controllers
-### 4.1 Build
-```bash
-cd ~/ros2_ws
-colcon build --packages-up-to cartesian_compliance_controller cartesian_controller_handles --symlink-install
-```
-
-### 4.2 Cartesian Motion Controller
-```bash
-source ~/ros2_ws/install/setup.bash
-ros2 launch cr5_description cartesian_motion_controller.launch.py
-```
-
-```bash
-source ~/ros2_ws/install/setup.bash
-ros2 launch cr5_description cartesian_motion_controller.launch.py hardware:=real
-```
-
-## 5. Real Dobot CR5 Deploy
+### 3.3 Real Robot Deploy
 
 * Launch Dobot ROS2 Control
   ```bash
@@ -104,4 +89,39 @@ ros2 launch cr5_description cartesian_motion_controller.launch.py hardware:=real
   ```bash
   source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=real type:=empty
+  ```
+
+## 4. Cartesian Controllers
+### 4.1 Build
+```bash
+cd ~/ros2_ws
+colcon build --packages-up-to cartesian_compliance_controller cartesian_controller_handles --symlink-install
+```
+
+The `cartesian_controller.launch.py` from `robot_common_launch` supports three controller types: `motion`, `force`, and `compliance`. Use the `controller_type` parameter to select the desired controller.
+
+### 4.2 Cartesian Motion Controller
+* Mock Component
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch cartesian_controller.launch.py robot:=cr5
+  ```
+* Real Robot
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch cartesian_controller.launch.py robot:=cr5 hardware:=real type:=ft-90c
+  ```
+
+### 4.3 Cartesian Force Controller
+* Real Robot
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch cartesian_controller.launch.py robot:=cr5 hardware:=real type:=ft-90c controller_type:=force
+  ```
+
+### 4.4 Cartesian Compliance Controller
+* Real Robot
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch cartesian_controller.launch.py robot:=cr5 hardware:=real type:=ft-90c controller_type:=compliance
   ```

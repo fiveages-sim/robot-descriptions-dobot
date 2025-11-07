@@ -84,7 +84,7 @@ source ~/ros2_ws/install/setup.bash
 ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="left_arm"
 ```
 
-## 4. Real Dobot CR5 Deploy
+### 3.4. Real Dobot CR5 Deploy
 * Dual Arm
   ```bash
   source ~/ros2_ws/install/setup.bash
@@ -94,4 +94,30 @@ ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="left_arm"
   ```bash
   source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual hardware:=real type:=left_arm
+  ```
+
+## 4. Cartesian Controllers
+### 4.1 Build
+```bash
+cd ~/ros2_ws
+colcon build --packages-up-to cartesian_compliance_controller cartesian_controller_handles --symlink-install
+```
+
+### 4.2 Cartesian Motion Controller
+* Mock Component
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch cr5_description cartesian_motion_controller.launch.py
+  ```
+* Real Robot
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch cr5_description cartesian_motion_controller.launch.py hardware:=real robot:=cr5_dual type:=left_arm
+  ```
+
+### 4.2 Cartesian Force Controller
+* Real Robot
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch cr5_description cartesian_force_controller.launch.py hardware:=real robot:=cr5_dual type:=left_arm
   ```
