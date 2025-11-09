@@ -100,6 +100,11 @@ colcon build --packages-up-to cartesian_compliance_controller cartesian_controll
 
 The `cartesian_controller.launch.py` from `robot_common_launch` supports three controller types: `motion`, `force`, and `compliance`. Use the `controller_type` parameter to select the desired controller.
 
+* Install Force-Torque Sensor Broadcaster
+```bash
+sudo apt-get install ros-jazzy-force-torque-sensor-broadcaster
+```
+
 ### 4.2 Cartesian Motion Controller
 * Mock Component
   ```bash

@@ -139,12 +139,12 @@ cartesian_force_controller:
     # Force-torque sensor configuration
     ft_sensor_name: "ft_sensor"
     ft_sensor_interfaces:
-      - force_x
-      - force_y
-      - force_z
-      - torque_x
-      - torque_y
-      - torque_z
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
 
     solver:
       error_scale: 0.5
@@ -185,12 +185,12 @@ cartesian_compliance_controller:
     # Force-torque sensor configuration (same as cartesian_force_controller)
     ft_sensor_name: "ft_sensor"
     ft_sensor_interfaces:
-      - force_x
-      - force_y
-      - force_z
-      - torque_x
-      - torque_y
-      - torque_z
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
 
     stiffness:  # w.r.t. compliance_ref_link
         trans_x: 300.0
