@@ -24,9 +24,9 @@ controller_manager:
     cartesian_compliance_controller:
       type: cartesian_compliance_controller/CartesianComplianceController
 
-    # Interactive marker handle for RViz (enables drag-and-drop control)
-    motion_control_handle:
-      type: cartesian_controller_handles/MotionControlHandle
+#    # Interactive marker handle for RViz (enables drag-and-drop control)
+#    motion_control_handle:
+#      type: cartesian_controller_handles/MotionControlHandle
 
     force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
@@ -56,6 +56,7 @@ ocs2_arm_controller:
   ros__parameters:
     # Joint configuration
     update_rate: 100  # Hz
+    info_file_name: ft-90c
     joints:
       - joint1
       - joint2
@@ -75,14 +76,15 @@ ocs2_arm_controller:
     future_time_offset: 1.0
 
     # Control parameters
-    home_pos: [0.0, 0.0, -1.5708, 0.0, 1.5708, 0.0]
-    rest_pos: [-3.1415926, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    home_pos: [2.9718, 0.06917, 1.43946, 0.10000, -1.5708, 0.187]
+    rest_pos: [3.14, 0.0, 1.5708, 0.0, -1.5708, 0.0]
 
 cartesian_motion_controller:
   ros__parameters:
     # Robot kinematics configuration
     end_effector_link: "eef"  # End effector link name
     robot_base_link: "base_link"  # Base link name
+    target_pose_topic: "/left_target"
     
     # Joint configuration
     joints:
@@ -205,22 +207,22 @@ cartesian_compliance_controller:
         rot_y: {p: 0.5}
         rot_z: {p: 0.5}
 
-# Interactive marker handle configuration
-motion_control_handle:
-  ros__parameters:
-    # Robot kinematics configuration (must match cartesian_motion_controller)
-    end_effector_link: "eef"  # End effector link name
-    robot_base_link: "base_link"  # Base link name
-    ft_sensor_ref_link: "ft_sensor"  # Force/torque sensor reference link (use end_effector if no sensor)
-    
-    # Joint configuration
-    joints:
-      - joint1
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
+## Interactive marker handle configuration
+#motion_control_handle:
+#  ros__parameters:
+#    # Robot kinematics configuration (must match cartesian_motion_controller)
+#    end_effector_link: "eef"  # End effector link name
+#    robot_base_link: "base_link"  # Base link name
+#    ft_sensor_ref_link: "ft_sensor"  # Force/torque sensor reference link (use end_effector if no sensor)
+#
+#    # Joint configuration
+#    joints:
+#      - joint1
+#      - joint2
+#      - joint3
+#      - joint4
+#      - joint5
+#      - joint6
 
 force_torque_sensor_broadcaster:
   ros__parameters:

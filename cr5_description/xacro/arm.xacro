@@ -234,7 +234,7 @@
             <parent link="${prefix}Link3"/>
             <child link="${prefix}Link4"/>
             <axis xyz="0 0 1"/>
-            <limit lower="${-2*PI}" upper="2.2591366109921265" effort="300" velocity="${PI}"/>
+            <limit lower="${-2*PI}" upper="${2*PI}" effort="300" velocity="${PI}"/>
         </joint>
         <link name="${prefix}Link5">
             <inertial>

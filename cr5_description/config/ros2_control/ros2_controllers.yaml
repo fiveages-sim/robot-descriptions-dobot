@@ -15,19 +15,6 @@ controller_manager:
     ocs2_arm_controller:
       type: ocs2_arm_controller/Ocs2ArmController
 
-    cartesian_motion_controller:
-      type: cartesian_motion_controller/CartesianMotionController
-
-    cartesian_force_controller:
-      type: cartesian_force_controller/CartesianForceController
-
-    cartesian_compliance_controller:
-      type: cartesian_compliance_controller/CartesianComplianceController
-
-    # Interactive marker handle for RViz (enables drag-and-drop control)
-    motion_control_handle:
-      type: cartesian_controller_handles/MotionControlHandle
-
 
 arm_controller:
   ros__parameters:
@@ -47,7 +34,8 @@ arm_controller:
 hand_controller:
   ros__parameters:
     joint: gripper_joint
-    use_effort_interface: false
+    force_feedback_ratio: 0.1
+    force_threshold: 0.5
 
 ocs2_arm_controller:
   ros__parameters:
@@ -74,157 +62,3 @@ ocs2_arm_controller:
     # Control parameters
     home_pos: [0.0, 0.0, -1.5708, 0.0, 1.5708, 0.0]
     rest_pos: [-3.1415926, 0.0, -1.5708, 0.0, 1.5708, 0.0]
-
-cartesian_motion_controller:
-  ros__parameters:
-    # Robot kinematics configuration
-    end_effector_link: "eef"  # End effector link name
-    robot_base_link: "base_link"  # Base link name
-    
-    # Joint configuration
-    joints:
-      - joint1
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
-
-    # Command interface: position or velocity (or both)
-    command_interfaces:
-      - position
-      # - velocity  # Uncomment if velocity control is needed
-
-    # IK solver configuration
-    ik_solver: "forward_dynamics"  # Options: forward_dynamics, jacobian_transpose, damped_least_squares, selectively_damped_least_squares
-    
-    solver:
-      error_scale: 1.0  # Overall error scaling factor
-      iterations: 10  # Number of internal solver iterations per control cycle
-      publish_state_feedback: true  # Enable pose/twist feedback publishing
-
-    # PD gains for Cartesian control (translational and rotational)
-    pd_gains:
-      trans_x: {p: 5.0, d: 0.0}  # Translation X axis
-      trans_y: {p: 5.0, d: 0.0}  # Translation Y axis
-      trans_z: {p: 5.0, d: 0.0}  # Translation Z axis
-      rot_x: {p: 10.0, d: 0.0}   # Rotation X axis
-      rot_y: {p: 10.0, d: 0.0}   # Rotation Y axis
-      rot_z: {p: 10.0, d: 0.0}   # Rotation Z axis
-
-cartesian_force_controller:
-  ros__parameters:
-
-    # See the cartesian_compliance_controller
-    end_effector_link: "eef"  # End effector link name
-    robot_base_link: "base_link"  # Base link name
-    ft_sensor_ref_link: "ft_sensor"
-    joints:
-      - joint1
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
-
-    # See the cartesian_compliance_controller
-    command_interfaces:
-      - position
-      #- velocity
-
-    # State interfaces for joints (position is required by base class)
-    state_interfaces:
-      - position
-
-    # Force-torque sensor configuration
-    ft_sensor_name: "ft_sensor"
-    ft_sensor_interfaces:
-      - force.x
-      - force.y
-      - force.z
-      - torque.x
-      - torque.y
-      - torque.z
-
-    solver:
-      error_scale: 0.5
-      publish_state_feedback: True
-
-    pd_gains:
-      trans_x: {p: 0.05, d: 0.00005}
-      trans_y: {p: 0.05, d: 0.00005}
-      trans_z: {p: 0.05, d: 0.00005}
-      rot_x: {p: 1.5}
-      rot_y: {p: 1.5}
-      rot_z: {p: 1.5}
-
-cartesian_compliance_controller:
-  ros__parameters:
-    end_effector_link: "eef"  # End effector link name
-    robot_base_link: "base_link"  # Base link name
-    ft_sensor_ref_link: "ft_sensor"
-
-    compliance_ref_link: "eef"
-    joints:
-      - joint1
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
-
-    # Choose: position or velocity.
-    command_interfaces:
-      - position
-        #- velocity
-
-    # State interfaces for joints (position is required by base class)
-    state_interfaces:
-      - position
-
-    # Force-torque sensor configuration (same as cartesian_force_controller)
-    ft_sensor_name: "ft_sensor"
-    ft_sensor_interfaces:
-      - force.x
-      - force.y
-      - force.z
-      - torque.x
-      - torque.y
-      - torque.z
-
-    stiffness:  # w.r.t. compliance_ref_link
-        trans_x: 300.0
-        trans_y: 300.0
-        trans_z: 300.0
-        rot_x: 20.0
-        rot_y: 20.0
-        rot_z: 20.0
-
-    solver:
-        error_scale: 0.5
-        iterations: 1
-
-    pd_gains:
-        trans_x: {p: 0.5, d: 0.005}
-        trans_y: {p: 0.5, d: 0.005}
-        trans_z: {p: 0.5, d: 0.005}
-        rot_x: {p: 1.5}
-        rot_y: {p: 1.5}
-        rot_z: {p: 1.5}
-
-# Interactive marker handle configuration
-motion_control_handle:
-  ros__parameters:
-    # Robot kinematics configuration (must match cartesian_motion_controller)
-    end_effector_link: "eef"  # End effector link name
-    robot_base_link: "base_link"  # Base link name
-    ft_sensor_ref_link: "ft_sensor"  # Force/torque sensor reference link (use end_effector if no sensor)
-    
-    # Joint configuration
-    joints:
-      - joint1
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
