@@ -51,18 +51,4 @@
     </joint>
   </xacro:if>
 
-  <xacro:if value="${'$(arg type)' == 'AG2F120S'}">
-    <xacro:include filename="$(find changingtek_description)/xacro/AG2F120S.xacro"/>
-    <xacro:AG2F120S name="left"/>
-    <xacro:AG2F120S name="right"/>
-    <joint name="left_gripper_fix" type="fixed">
-      <parent link="left_Link6"/>
-      <child link="left_gripper_base"/>
-    </joint>
-    <joint name="right_gripper_fix" type="fixed">
-      <parent link="right_Link6"/>
-      <child link="right_gripper_base"/>
-    </joint>
-  </xacro:if>
-
 </robot>
