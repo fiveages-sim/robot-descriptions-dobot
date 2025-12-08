@@ -1,0 +1,35 @@
+# TF参数配置文件 - 用于定义关节的origin变换参数
+# 可以通过修改此文件来调整机器人的TF变换，无需修改xacro文件
+# 注意：xyz和rpy使用字符串格式，以空格分隔三个数值
+
+tf_params:
+  # joint1的origin参数
+  joint1:
+    xyz: "0 0 0.147"
+    rpy: "0 0 0"
+  
+  # joint2的origin参数
+  joint2:
+    xyz: "0 0 0"
+    rpy: "1.5708 1.5708 0"  # PI/2, PI/2, 0
+  
+  # joint3的origin参数
+  joint3:
+    xyz: "-0.427 0 0"
+    rpy: "0 0 0"
+  
+  # joint4的origin参数
+  joint4:
+    xyz: "-0.357 0 0.141"
+    rpy: "0 0 -1.5708"  # 0, 0, -PI/2
+  
+  # joint5的origin参数
+  joint5:
+    xyz: "0 -0.116 0"
+    rpy: "1.5708 0 0"  # PI/2, 0, 0
+  
+  # joint6的origin参数
+  joint6:
+    xyz: "0 0.105 0"
+    rpy: "-1.5708 0 0"  # -PI/2, 0, 0
+

@@ -3,9 +3,12 @@
 <robot name="DobotCR5" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="collider" default="convex"/>
 
+  <!-- 从同目录下的tf_params.yaml文件加载tf参数 -->
+  <xacro:property name="tf_params" value="${xacro.load_yaml('$(find cr5_description)/xacro/tf_params.yaml')['tf_params']}"/>
+
   <xacro:include filename="$(find cr5_description)/xacro/arm.xacro"/>
 
-  <xacro:CR5 name="" collider="$(arg collider)"/>
+  <xacro:CR5 name="" collider="$(arg collider)" tf_params="${tf_params}"/>
 
   <xacro:include filename="$(find cr5_description)/xacro/grippers.xacro"/>
 </robot>
