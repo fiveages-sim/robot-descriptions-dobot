@@ -1,9 +1,68 @@
 <?xml version="1.0"?>
 <robot name="cr5_robot" xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:property name="PI" value="3.1415926535897931"/>
-    <xacro:macro name="CR5" params="name collider:=convex tf_params">
+    <xacro:property name="DEG2RAD" value="0.017453292519943295"/>  <!-- PI/180 -->
+    <xacro:property name="MM2M" value="0.001"/>  <!-- 毫米转米 -->
+    
+    <xacro:macro name="CR5" params="name collider:=convex dh_params">
 
         <xacro:property name="prefix" value="${name + '_' if name else ''}"/>
+        
+        <!-- 
+            从DH参数计算各关节的xyz和rpy值（单位转换：毫米->米，度->弧度）
+            标准DH参数映射规则（基于执行器轴方向）：
+            - a (link length): 沿着x轴的距离 → xyz的x分量
+            - d (link offset): 沿着z轴的距离 → xyz的z分量  
+            - alpha (twist): 绕x轴的旋转角度 → rpy的x分量（roll）
+            - theta: 绕z轴的旋转（关节变量，在URDF中通过axis定义）
+        -->
+        
+        <!-- joint1: 标准DH转换 - a=0, d=147mm, alpha=0 -->
+        <xacro:property name="j1_a_m" value="${dh_params['joint1']['a'] * MM2M}"/>
+        <xacro:property name="j1_d_m" value="${dh_params['joint1']['d'] * MM2M}"/>
+        <xacro:property name="j1_alpha_rad" value="${dh_params['joint1']['alpha'] * DEG2RAD}"/>
+        <xacro:property name="j1_xyz" value="${str(j1_a_m) + ' ' + str(0) + ' ' + str(j1_d_m)}"/>
+        <xacro:property name="j1_rpy" value="${str(j1_alpha_rad) + ' ' + str(0) + ' ' + str(0)}"/>
+        
+        <!-- joint2: alpha映射到rpy的x（roll），theta的固定偏移π/2映射到rpy的y（pitch） -->
+        <xacro:property name="j2_a_m" value="${dh_params['joint2']['a'] * MM2M}"/>
+        <xacro:property name="j2_d_m" value="${dh_params['joint2']['d'] * MM2M}"/>
+        <xacro:property name="j2_alpha_rad" value="${dh_params['joint2']['alpha'] * DEG2RAD}"/>
+        <xacro:property name="j2_xyz" value="${str(j2_a_m) + ' ' + str(0) + ' ' + str(j2_d_m)}"/>
+        <!-- alpha -> rpy x (roll), theta的固定偏移π/2 -> rpy y (pitch) -->
+        <xacro:property name="j2_rpy" value="${str(j2_alpha_rad) + ' ' + str(PI/2) + ' ' + str(0)}"/>
+        
+        <!-- joint3: 标准DH转换 - a=-427.567mm, d=0, alpha≈0 -->
+        <xacro:property name="j3_a_m" value="${dh_params['joint3']['a'] * MM2M}"/>
+        <xacro:property name="j3_d_m" value="${dh_params['joint3']['d'] * MM2M}"/>
+        <xacro:property name="j3_alpha_rad" value="${dh_params['joint3']['alpha'] * DEG2RAD}"/>
+        <xacro:property name="j3_xyz" value="${str(j3_a_m) + ' ' + str(0) + ' ' + str(j3_d_m)}"/>
+        <xacro:property name="j3_rpy" value="${str(j3_alpha_rad) + ' ' + str(0) + ' ' + str(0)}"/>
+        
+        <!-- joint4: alpha映射到rpy的x（roll），theta的固定偏移-π/2映射到rpy的z（yaw） -->
+        <xacro:property name="j4_a_m" value="${dh_params['joint4']['a'] * MM2M}"/>
+        <xacro:property name="j4_d_m" value="${dh_params['joint4']['d'] * MM2M}"/>
+        <xacro:property name="j4_alpha_rad" value="${dh_params['joint4']['alpha'] * DEG2RAD}"/>
+        <xacro:property name="j4_xyz" value="${str(j4_a_m) + ' ' + str(0) + ' ' + str(j4_d_m)}"/>
+        <!-- alpha -> rpy x (roll), theta的固定偏移-π/2 -> rpy z (yaw) -->
+        <xacro:property name="j4_rpy" value="${str(j4_alpha_rad) + ' ' + str(0) + ' ' + str(-PI/2)}"/>
+        
+        <!-- joint5: 由于坐标系旋转，d映射到y负方向，alpha仍为roll -->
+        <xacro:property name="j5_a_m" value="${dh_params['joint5']['a'] * MM2M}"/>
+        <xacro:property name="j5_d_m" value="${dh_params['joint5']['d'] * MM2M}"/>
+        <xacro:property name="j5_alpha_rad" value="${dh_params['joint5']['alpha'] * DEG2RAD}"/>
+        <!-- 注意：由于坐标系旋转，d映射到y负方向而不是z方向 -->
+        <xacro:property name="j5_xyz" value="${str(j5_a_m) + ' ' + str(-j5_d_m) + ' ' + str(0)}"/>
+        <xacro:property name="j5_rpy" value="${str(j5_alpha_rad) + ' ' + str(0) + ' ' + str(0)}"/>
+        
+        <!-- joint6: 由于坐标系旋转，d映射到y正方向，alpha仍为roll -->
+        <xacro:property name="j6_a_m" value="${dh_params['joint6']['a'] * MM2M}"/>
+        <xacro:property name="j6_d_m" value="${dh_params['joint6']['d'] * MM2M}"/>
+        <xacro:property name="j6_alpha_rad" value="${dh_params['joint6']['alpha'] * DEG2RAD}"/>
+        <!-- 注意：由于坐标系旋转，d映射到y正方向而不是z方向 -->
+        <xacro:property name="j6_xyz" value="${str(j6_a_m) + ' ' + str(j6_d_m) + ' ' + str(0)}"/>
+        <xacro:property name="j6_rpy" value="${str(j6_alpha_rad) + ' ' + str(0) + ' ' + str(0)}"/>
+        
         <link name="${prefix}base_link">
             <inertial>
                 <origin xyz="-8.0961E-06 0.0019103 0.028995"/>
@@ -75,7 +134,7 @@
         </link>
 
         <joint name="${prefix}joint1" type="revolute">
-            <origin xyz="${tf_params['joint1']['xyz']}" rpy="${tf_params['joint1']['rpy']}"/>
+            <origin xyz="${j1_xyz}" rpy="${j1_rpy}"/>
             <parent link="${prefix}base_link"/>
             <child link="${prefix}Link1"/>
             <axis xyz="0 0 1"/>
@@ -134,7 +193,7 @@
         </link>
 
         <joint name="${prefix}joint2" type="revolute">
-            <origin xyz="${tf_params['joint2']['xyz']}" rpy="${tf_params['joint2']['rpy']}"/>
+            <origin xyz="${j2_xyz}" rpy="${j2_rpy}"/>
             <parent link="${prefix}Link1"/>
             <child link="${prefix}Link2"/>
             <axis xyz="0 0 1"/>
@@ -193,7 +252,7 @@
         </link>
 
         <joint name="${prefix}joint3" type="revolute">
-            <origin xyz="${tf_params['joint3']['xyz']}" rpy="${tf_params['joint3']['rpy']}"/>
+            <origin xyz="${j3_xyz}" rpy="${j3_rpy}"/>
             <parent link="${prefix}Link2"/>
             <child link="${prefix}Link3"/>
             <axis xyz="0 0 1"/>
@@ -230,7 +289,7 @@
         </link>
 
         <joint name="${prefix}joint4" type="revolute">
-            <origin xyz="${tf_params['joint4']['xyz']}" rpy="${tf_params['joint4']['rpy']}"/>
+            <origin xyz="${j4_xyz}" rpy="${j4_rpy}"/>
             <parent link="${prefix}Link3"/>
             <child link="${prefix}Link4"/>
             <axis xyz="0 0 1"/>
@@ -266,7 +325,7 @@
         </link>
 
         <joint name="${prefix}joint5" type="revolute">
-            <origin xyz="${tf_params['joint5']['xyz']}" rpy="${tf_params['joint5']['rpy']}"/>
+            <origin xyz="${j5_xyz}" rpy="${j5_rpy}"/>
             <parent link="${prefix}Link4"/>
             <child link="${prefix}Link5"/>
             <axis xyz="0 0 1"/>
@@ -303,7 +362,7 @@
         </link>
 
         <joint name="${prefix}joint6" type="revolute">
-            <origin xyz="${tf_params['joint6']['xyz']}" rpy="${tf_params['joint6']['rpy']}"/>
+            <origin xyz="${j6_xyz}" rpy="${j6_rpy}"/>
             <parent link="${prefix}Link5"/>
             <child link="${prefix}Link6"/>
             <axis xyz="0 0 1"/>

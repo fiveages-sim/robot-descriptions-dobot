@@ -45,7 +45,8 @@ colcon build --packages-up-to cr5_description --symlink-install
   source ~/ros2_ws/install/setup.bash
   ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="ft-90c"
   ```
-## 3. OCS2 Demo
+
+## 3. OCS2 Arm Controller
 
 ### 3.1 Official OCS2 Mobile Manipulator Demo
 
@@ -56,7 +57,7 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5
 
 ![cr5 ocs2](../.images/dobot_cr5_ocs2.gif)
 
-### 3.2 OCS2 Arm Controller Demo
+### 3.2 Simulation Demo
 
 * Mock Components
   ```bash
@@ -79,7 +80,11 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5
   ```
 
 ### 3.3 Real Robot Deploy
-
+* Build Dobot ROS2 Control
+  ```bash
+  cd ~/ros2_ws
+  colcon build --packages-up-to dobot_ros2_control --symlink-install
+  ```
 * Launch Dobot ROS2 Control
   ```bash
   source ~/ros2_ws/install/setup.bash

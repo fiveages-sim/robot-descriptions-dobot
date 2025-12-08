@@ -9,7 +9,7 @@ model_information {
   ; base frame of the robot (from URDF)
   baseFrame                       "base_link"
   ; end-effector frame of the robot (from URDF)
-  eeFrame                         "tcp" // gripper_base
+  eeFrame                         "Link6" // gripper_base
 }
 
 model_settings
