@@ -29,13 +29,12 @@ colcon build --packages-up-to cr5_dual_description --symlink-install
 * With ChangingTek AG2F90-C Gripper
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F90-C"
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F90-C-Soft"
   ```
-* With AG2F120S
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F120S"
-    ```
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual type:="AG2F90-C"
+  ```
 
 ## 3. OCS2 Demo
 ### 3.1 Official OCS2 Mobile Manipulator Demo
@@ -49,12 +48,7 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5_dual
 * Mock Component
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="AG2F90-C-Soft"
-  ```
-
-  ```bash
-  source ~/ros2_ws/install/setup.bash
-  ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="AG2F120S"
+  ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="AG2F90-C"
   ```
   
 * Gazebo
@@ -65,26 +59,10 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5_dual
 * Isaac Sim
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F90-C"
-  ```
-
-  ```bash
-  source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F90-C-Soft"
   ```
+## 4. Real Dobot CR5 Deploy
 
-  ```bash
-  source ~/ros2_ws/install/setup.bash
-  ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F120S"
-  ```
-
-### 3.3 OCS2 Arm Controller Demo (Single Arm)
-```bash
-source ~/ros2_ws/install/setup.bash
-ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="left_arm"
-```
-
-### 3.4. Real Dobot CR5 Deploy
 * Dual Arm
   ```bash
   source ~/ros2_ws/install/setup.bash
@@ -96,14 +74,14 @@ ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual type:="left_arm"
   ros2 launch ocs2_arm_controller demo.launch.py robot:=cr5_dual hardware:=real type:=left_arm
   ```
 
-## 4. Cartesian Controllers
-### 4.1 Build
+## 5. Cartesian Controllers
+### 5.1 Build
 ```bash
 cd ~/ros2_ws
 colcon build --packages-up-to cartesian_compliance_controller cartesian_controller_handles --symlink-install
 ```
 
-### 4.2 Cartesian Motion Controller
+### 5.2 Cartesian Motion Controller
 * Mock Component
   ```bash
   source ~/ros2_ws/install/setup.bash

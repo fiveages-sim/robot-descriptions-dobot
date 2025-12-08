@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="cr5_robot" xmlns:xacro="http://ros.org/wiki/xacro">
     <xacro:property name="PI" value="3.1415926535897931"/>
-    <xacro:macro name="CR5" params="name collider:=convex">
+    <xacro:macro name="CR5" params="name collider:=convex tf_params">
 
         <xacro:property name="prefix" value="${name + '_' if name else ''}"/>
         <link name="${prefix}base_link">
@@ -75,7 +75,7 @@
         </link>
 
         <joint name="${prefix}joint1" type="revolute">
-            <origin xyz="0 0 0.147"/>
+            <origin xyz="${tf_params['joint1']['xyz']}" rpy="${tf_params['joint1']['rpy']}"/>
             <parent link="${prefix}base_link"/>
             <child link="${prefix}Link1"/>
             <axis xyz="0 0 1"/>
@@ -134,7 +134,7 @@
         </link>
 
         <joint name="${prefix}joint2" type="revolute">
-            <origin rpy="${PI/2} ${PI/2} 0"/>
+            <origin xyz="${tf_params['joint2']['xyz']}" rpy="${tf_params['joint2']['rpy']}"/>
             <parent link="${prefix}Link1"/>
             <child link="${prefix}Link2"/>
             <axis xyz="0 0 1"/>
@@ -193,7 +193,7 @@
         </link>
 
         <joint name="${prefix}joint3" type="revolute">
-            <origin xyz="-0.427 0 0"/>
+            <origin xyz="${tf_params['joint3']['xyz']}" rpy="${tf_params['joint3']['rpy']}"/>
             <parent link="${prefix}Link2"/>
             <child link="${prefix}Link3"/>
             <axis xyz="0 0 1"/>
@@ -230,7 +230,7 @@
         </link>
 
         <joint name="${prefix}joint4" type="revolute">
-            <origin xyz="-0.357 0 0.141" rpy="0 0 ${-PI/2}"/>
+            <origin xyz="${tf_params['joint4']['xyz']}" rpy="${tf_params['joint4']['rpy']}"/>
             <parent link="${prefix}Link3"/>
             <child link="${prefix}Link4"/>
             <axis xyz="0 0 1"/>
@@ -266,7 +266,7 @@
         </link>
 
         <joint name="${prefix}joint5" type="revolute">
-            <origin xyz="0 -0.116 0" rpy="${PI/2} 0 0"/>
+            <origin xyz="${tf_params['joint5']['xyz']}" rpy="${tf_params['joint5']['rpy']}"/>
             <parent link="${prefix}Link4"/>
             <child link="${prefix}Link5"/>
             <axis xyz="0 0 1"/>
@@ -303,7 +303,7 @@
         </link>
 
         <joint name="${prefix}joint6" type="revolute">
-            <origin xyz="0 0.105 0" rpy="${-PI/2} 0 0"/>
+            <origin xyz="${tf_params['joint6']['xyz']}" rpy="${tf_params['joint6']['rpy']}"/>
             <parent link="${prefix}Link5"/>
             <child link="${prefix}Link6"/>
             <axis xyz="0 0 1"/>

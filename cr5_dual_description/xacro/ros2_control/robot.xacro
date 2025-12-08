@@ -95,11 +95,6 @@
                 <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
                 <xacro:robotiq_2f85_interfaces name="left"/>
             </xacro:if>
-
-            <xacro:if value="${'$(arg type)' == 'AG2F120S'}">
-                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F120S.xacro"/>
-                <xacro:ag2f120s_interfaces name="left"/>
-            </xacro:if>
         </ros2_control>
 
         <ros2_control name="cr5_right_system" type="system">
@@ -122,11 +117,6 @@
             <xacro:if value="${'$(arg type)' == 'robotiq85'}">
                 <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
                 <xacro:robotiq_2f85_interfaces name="right"/>
-            </xacro:if>
-
-            <xacro:if value="${'$(arg type)' == 'AG2F120S'}">
-                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F120S.xacro"/>
-                <xacro:ag2f120s_interfaces name="right"/>
             </xacro:if>
         </ros2_control>
     </xacro:if>
@@ -155,12 +145,6 @@
                 <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
                 <xacro:robotiq_2f85_interfaces name="left"/>
                 <xacro:robotiq_2f85_interfaces name="right"/>
-            </xacro:if>
-
-            <xacro:if value="${'$(arg type)' == 'AG2F120S'}">
-                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F120S.xacro"/>
-                <xacro:ag2f120s_interfaces name="left"/>
-                <xacro:ag2f120s_interfaces name="right"/>
             </xacro:if>
         </ros2_control>
 
@@ -200,12 +184,6 @@
                 <xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
                 <xacro:robotiq_2f85_interfaces name="left"/>
                 <xacro:robotiq_2f85_interfaces name="right"/>
-            </xacro:if>
-
-            <xacro:if value="${'$(arg type)' == 'AG2F120S'}">
-                <xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F120S.xacro"/>
-                <xacro:ag2f120s_interfaces name="left"/>
-                <xacro:ag2f120s_interfaces name="right"/>
             </xacro:if>
         </ros2_control>
     </xacro:if>
