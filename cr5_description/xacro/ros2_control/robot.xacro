@@ -30,12 +30,11 @@
             </xacro:if>
             <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'real'}">
                 <plugin>dobot_ros2_control/DobotHardware</plugin>
-                <param name="robot_ip">192.168.5.33</param>
+                <param name="robot_ip">192.168.5.34</param>
                 <param name="gain">500</param>
                 <param name="aheadtime">20</param>
                 <param name="speed_factor">1</param>
                 <param name="servo_time">0.02</param>
-                <param name="gripper_read_frequency_divider">50</param>
             </xacro:if>
         </hardware>
 
