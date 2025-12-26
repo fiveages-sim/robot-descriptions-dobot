@@ -21,7 +21,7 @@ ocs2_arm_controller:
   ros__parameters:
     # Joint configuration
     update_rate: 60  # Hz
-    mpc_frequency: 30.0
+    mpc_frequency: 30
     info_file_name: task  # Use task.info file
     joints:
       # Left arm joints (6 DOF)

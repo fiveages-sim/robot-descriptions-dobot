@@ -2,6 +2,7 @@
 <robot name="DobotCR5_Dual" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:arg name="collider" default="convex"/>
+  <xacro:property name="tf_params" value="${xacro.load_yaml('$(find cr5_description)/xacro/tf_params.yaml')['tf_params']}"/>
 
   <link name="base_link">
     <visual>
@@ -17,8 +18,8 @@
   </link>
 
   <xacro:include filename="$(find cr5_description)/xacro/arm.xacro"/>
-  <xacro:CR5 name="left" collider="$(arg collider)"/>
-  <xacro:CR5 name="right" collider="$(arg collider)"/>
+  <xacro:CR5 name="left" collider="$(arg collider)" tf_params="${tf_params}"/>
+  <xacro:CR5 name="right" collider="$(arg collider)" tf_params="${tf_params}"/>
 
   <!-- Initial guess; measure or adjust in RViz for final mounting pose -->
   <joint name="left_arm_mount" type="fixed">

@@ -12,14 +12,14 @@ colcon build --packages-up-to cr5_dual_description --symlink-install
 ## 2. Visualize the Robot
 
 * Without gripper
-    ```bash
-    source ~/ros2_ws/install/setup.bash
-    ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual
-    ```
-    ```bash
-    source ~/ros2_ws/install/setup.bash
-    ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual collider:=simple
-    ```
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual
+  ```
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5_dual collider:=simple
+  ```
 * With Robotiq 85 Gripper
     ```bash
     source ~/ros2_ws/install/setup.bash
@@ -56,6 +56,10 @@ ros2 launch robot_common_launch manipulator_ocs2.launch.py robot_name:=cr5_dual
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=gz robot:=cr5_dual world:=warehouse type:="AG2F90-C-Soft"
   ```
 * Isaac Sim
+  ```bash
+  source ~/ros2_ws/install/setup.bash
+  ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual
+  ```
   ```bash
   source ~/ros2_ws/install/setup.bash
   ros2 launch ocs2_arm_controller demo.launch.py hardware:=isaac robot:=cr5_dual type:="AG2F90-C-Soft"
