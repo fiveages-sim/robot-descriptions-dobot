@@ -2,6 +2,38 @@
 <robot name="DobotCR5_Dual" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:arg name="collider" default="convex"/>
+  <xacro:arg name="type" default="empty"/>
+  <xacro:arg name="scene" default=""/>
+
+  <!-- 与单臂一致：解析 type 得到 selected_gripper_type + selected_scene -->
+  <xacro:property name="type_arg" value="$(arg type)"/>
+  <xacro:property name="selected_gripper_type" value="empty"/>
+  <xacro:property name="selected_scene" value=""/>
+
+  <xacro:if value="${type_arg == 'robotiq85'}">
+    <xacro:property name="selected_gripper_type" value="robotiq85"/>
+  </xacro:if>
+  <xacro:if value="${type_arg == 'AG2F90-C'}">
+    <xacro:property name="selected_gripper_type" value="AG2F90-C"/>
+  </xacro:if>
+  <xacro:if value="${type_arg == 'AG2F90-C-Soft'}">
+    <xacro:property name="selected_gripper_type" value="AG2F90-C-Soft"/>
+  </xacro:if>
+  <xacro:if value="${type_arg == 'empty' or type_arg == ''}">
+    <xacro:property name="selected_gripper_type" value="empty"/>
+  </xacro:if>
+
+  <xacro:if value="${type_arg == 'dual_desktop'}">
+    <xacro:property name="selected_scene" value="desktop"/>
+  </xacro:if>
+  <xacro:if value="${type_arg == 'dual_desktop_90c'}">
+    <xacro:property name="selected_scene" value="desktop"/>
+    <xacro:property name="selected_gripper_type" value="AG2F90-C-Soft"/>
+  </xacro:if>
+
+  <xacro:if value="${'$(arg scene)' != ''}">
+    <xacro:property name="selected_scene" value="$(arg scene)"/>
+  </xacro:if>
   <xacro:property name="tf_params" value="${xacro.load_yaml('$(find cr5_description)/xacro/tf_params.yaml')['tf_params']}"/>
 
   <link name="base_link">

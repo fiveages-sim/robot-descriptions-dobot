@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 
 <robot name="DobotCR5" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-	<xacro:arg name="type" default="empty"/>
+	<!--
+	  夹爪类型由 cr5_description/xacro/robot.xacro 解析得到：
+	  - selected_gripper_type: empty / robotiq85 / AG2F90-C(-Soft) / AG2F120S ...
+	  - selected_scene: 可选（当前文件不使用）
+	-->
 
 	<!-- 根据type参数决定使用哪种夹爪 -->
-	<xacro:if value="${'$(arg type)' == 'robotiq85'}">
+	<xacro:if value="${selected_gripper_type == 'robotiq85'}">
 		<xacro:include filename="$(find robotiq_description)/xacro/2F85.xacro"/>
 		<xacro:Robotiq85 name=""/>
 		<joint name="gripper_fix" type="fixed">
@@ -14,7 +17,7 @@
 		</joint>
 	</xacro:if>
 
-	<xacro:if value="${'$(arg type)' == 'AG2F90-C'}">
+	<xacro:if value="${selected_gripper_type == 'AG2F90-C'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
 		<xacro:AG2F90-C name="" use_flange="true"/>
 		<joint name="gripper_fix" type="fixed">
@@ -24,7 +27,7 @@
 		</joint>
 	</xacro:if>
 
-	<xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
+	<xacro:if value="${selected_gripper_type == 'AG2F90-C-Soft'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
 		<xacro:AG2F90-C name="" use_flange="true" pad="soft"/>
 		<joint name="gripper_fix" type="fixed">
@@ -43,7 +46,7 @@
 
 	</xacro:if>
 
-	<xacro:if value="${'$(arg type)' == 'AG2F120S'}">
+	<xacro:if value="${selected_gripper_type == 'AG2F120S'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F120S.xacro"/>
 		<xacro:AG2F120S name=""/>
 		<joint name="gripper_fix" type="fixed">

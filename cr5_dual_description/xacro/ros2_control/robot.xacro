@@ -27,7 +27,7 @@
 
 			<xacro:cr5_interfaces name="left"/>
 
-			<xacro:if value="${'$(arg type)' != 'empty'}">
+			<xacro:if value="${selected_gripper_type != 'empty'}">
 				<joint name="left_gripper_joint">
 					<command_interface name="position"/>
 					<state_interface name="position">
@@ -49,7 +49,7 @@
 
 			<xacro:cr5_interfaces name="right"/>
 
-			<xacro:if value="${'$(arg type)' != 'empty'}">
+			<xacro:if value="${selected_gripper_type != 'empty'}">
 				<joint name="right_gripper_joint">
 					<command_interface name="position"/>
 					<state_interface name="position">
@@ -78,13 +78,13 @@
 			<xacro:cr5_interfaces name="right"/>
 
 			<!-- 夹爪接口 - 参考CR5的模块化设计 -->
-			<xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+			<xacro:if value="${selected_gripper_type == 'AG2F90-C' or selected_gripper_type == 'AG2F90-C-Soft'}">
 				<xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
 				<xacro:ag2f90c_interfaces name="left"/>
 				<xacro:ag2f90c_interfaces name="right"/>
 			</xacro:if>
 
-			<xacro:if value="${'$(arg type)' == 'robotiq85'}">
+			<xacro:if value="${selected_gripper_type == 'robotiq85'}">
 				<xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
 				<xacro:robotiq_2f85_interfaces name="left"/>
 				<xacro:robotiq_2f85_interfaces name="right"/>
@@ -106,13 +106,13 @@
 			<xacro:cr5_interfaces name="right"/>
 
 			<!-- 夹爪接口 - 参考CR5的模块化设计 -->
-			<xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+			<xacro:if value="${selected_gripper_type == 'AG2F90-C' or selected_gripper_type == 'AG2F90-C-Soft'}">
 				<xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
 				<xacro:ag2f90c_interfaces name="left"/>
 				<xacro:ag2f90c_interfaces name="right"/>
 			</xacro:if>
 
-			<xacro:if value="${'$(arg type)' == 'robotiq85'}">
+			<xacro:if value="${selected_gripper_type == 'robotiq85'}">
 				<xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
 				<xacro:robotiq_2f85_interfaces name="left"/>
 				<xacro:robotiq_2f85_interfaces name="right"/>
@@ -144,13 +144,13 @@
 			<xacro:cr5_interfaces name="right"/>
 
 			<!-- 夹爪接口 - 参考CR5的模块化设计 -->
-			<xacro:if value="${'$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft'}">
+			<xacro:if value="${selected_gripper_type == 'AG2F90-C' or selected_gripper_type == 'AG2F90-C-Soft'}">
 				<xacro:include filename="$(find changingtek_description)/xacro/ros2_control/AG2F90-C.xacro"/>
 				<xacro:ag2f90c_interfaces name="left"/>
 				<xacro:ag2f90c_interfaces name="right"/>
 			</xacro:if>
 
-			<xacro:if value="${'$(arg type)' == 'robotiq85'}">
+			<xacro:if value="${selected_gripper_type == 'robotiq85'}">
 				<xacro:include filename="$(find robotiq_description)/xacro/ros2_control/2F85.xacro"/>
 				<xacro:robotiq_2f85_interfaces name="left"/>
 				<xacro:robotiq_2f85_interfaces name="right"/>

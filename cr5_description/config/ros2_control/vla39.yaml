@@ -1,0 +1,66 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 60  # Hz
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ocs2_arm_controller:
+      type: ocs2_arm_controller/Ocs2ArmController
+
+    hand_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+
+arm_controller:
+  ros__parameters:
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+ocs2_arm_controller:
+  ros__parameters:
+    # Joint configuration
+    update_rate: 60  # Hz
+    mpc_frequency: 30
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    robot_name: cr5
+
+    # Future time offset for trajectory prediction (in seconds)
+    future_time_offset: 1.0
+
+    # Control parameters
+    home_pos: [4.157, 0.384, -1.337, -0.408, 1.449, 0.977]
+    rest_pos: [4.465, 0.609, -1.763, -0.169, 0.895, 1.339]
+    movej_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
+    home_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
+
+hand_controller:
+  ros__parameters:
+    joint: gripper_joint
+    use_effort_interface: false
