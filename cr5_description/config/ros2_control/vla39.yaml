@@ -12,7 +12,7 @@ controller_manager:
     ocs2_arm_controller:
       type: ocs2_arm_controller/Ocs2ArmController
 
-    hand_controller:
+    gripper_controller:
       type: adaptive_gripper_controller/AdaptiveGripperController
 
 
@@ -60,7 +60,7 @@ ocs2_arm_controller:
     movej_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
     home_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
 
-hand_controller:
+gripper_controller:
   ros__parameters:
     joint: gripper_joint
     use_effort_interface: false
