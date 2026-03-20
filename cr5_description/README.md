@@ -33,11 +33,11 @@ colcon build --packages-up-to cr5_description --symlink-install
 * With ChangingTek AG2F90-C Gripper
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="AG2F90-C-Soft"
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="AG2F90-C-Soft" collider:="simple"
   ```
   ```bash
   source ~/ros2_ws/install/setup.bash
-  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="AG2F90-C"
+  ros2 launch robot_common_launch manipulator.launch.py robot:=cr5 type:="AG2F90-C" collider:="simple"
   ```
   ![cr5 ag2f90-c](../.images/dobot_cr5_ag2f90-c.png)
 

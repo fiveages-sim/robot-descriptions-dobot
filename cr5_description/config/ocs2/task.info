@@ -173,9 +173,9 @@ inputCost
     {
       scaling 1e-3
 
-      (0,0)  5.0  ; arm_1 velocity
-      (1,1)  5.0  ; arm_2 velocity
-      (2,2)  5.0  ; arm_3 velocity
+      (0,0)  1.0  ; arm_1 velocity
+      (1,1)  10.0  ; arm_2 velocity
+      (2,2)  10.0  ; arm_3 velocity
       (3,3)  1.0  ; arm_4 velocity
       (4,4)  1.0  ; arm_5 velocity
       (5,5)  1.0  ; arm_6 velocity
@@ -204,16 +204,16 @@ selfCollision
   ; Self Collision raw object pairs
   collisionObjectPairs
   {
-      [0] "1, 5",
-      [1] "1, 8",
-      [2] "4, 11",
-      [3] "7, 11",
-      [4] "1, 11"
+
   }
 
   ; Self Collision pairs
   collisionLinkPairs
   {
+      [0] "base_link, Link3",
+      [1] "base_link, Link2",
+      [2] "base_link, Link6",
+      [3] "Link2, Link6",
   }
 
   ; minimum distance allowed between the pairs
@@ -223,7 +223,7 @@ selfCollision
   mu      1e-3
 
   ; relaxed log barrier delta
-  delta   1e-4
+  delta   1e-2
 }
 
 ; Only applied for arm joints: limits parsed from URDF
@@ -236,7 +236,7 @@ jointPositionLimits
   mu      0.001
 
   ; relaxed log barrier delta
-  delta   1e-3
+  delta   1e-2
 }
 
 jointVelocityLimits
@@ -281,8 +281,8 @@ jointVelocityLimits
     arm
     {
       (0,0)  -1.5708     ; arm_1 [rad/s]
-      (1,0)  -1.5708	   ; arm_2 [rad/s]
-      (2,0)  -1.5708	   ; arm_3 [rad/s]
+      (1,0)  -1.08	   ; arm_2 [rad/s]
+      (2,0)  -1.08	   ; arm_3 [rad/s]
       (3,0)  -1.5708	   ; arm_4 [rad/s]
       (4,0)  -1.5708	   ; arm_5 [rad/s]
       (5,0)  -1.5708	   ; arm_6 [rad/s]
@@ -323,8 +323,8 @@ jointVelocityLimits
     arm
     {
       (0,0)  1.5708      ; arm_1 [rad/s]
-      (1,0)  1.5708	   ; arm_2 [rad/s]
-      (2,0)  1.5708	   ; arm_3 [rad/s]
+      (1,0)  1.08	   ; arm_2 [rad/s]
+      (2,0)  1.08	   ; arm_3 [rad/s]
       (3,0)  1.5708	   ; arm_4 [rad/s]
       (4,0)  1.5708	   ; arm_5 [rad/s]
       (5,0)  1.5708	   ; arm_6 [rad/s]
