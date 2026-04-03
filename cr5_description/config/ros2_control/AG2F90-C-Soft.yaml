@@ -15,6 +15,9 @@ controller_manager:
     hand_controller:
       type: adaptive_gripper_controller/AdaptiveGripperController
 
+    force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+
 
 arm_controller:
   ros__parameters:
@@ -54,10 +57,35 @@ ocs2_arm_controller:
     future_time_offset: 2.0
 
     # Control parameters
-    home_pos: [3.83, 0.23, -2.14, 0.64, 1.31, 0.49]
-    rest_pos: [3.14, 0.0, -1.57, 0.0, 1.57, 0.0]
+    home_1: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    home_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    rest_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
 
 hand_controller:
   ros__parameters:
     joint: gripper_joint
     use_effort_interface: false
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    frame_id: "ft_sensor"
+    sensor_name: "ft_sensor"
+    sensor_filter_chain:
+      filter1:
+        name: gravity_compensation
+        type: control_filters/GravityCompensationWrench
+        params:
+          world_frame: "base_link"
+          sensor_frame: "ft_sensor"
+          tool:
+            CoG: [-0.01285, 0.00209, 0.14197]
+            gravity_field: [0.0, 0.0, -9.81]
+            mass: 0.4
+      filter2:
+        name: low_pass_filter
+        type: control_filters/LowPassFilterWrench
+        params:
+          cutoff_frequency: 10.0
+          damping_frequency: 10.0
+          damping_intensity: 1.0
+          sampling_frequency: 60.0

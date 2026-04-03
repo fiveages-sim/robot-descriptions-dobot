@@ -1,0 +1,145 @@
+# This config is dedicated to OCS2 + ros2_control admittance_controller.
+# OCS2 publishes joint references; admittance_controller applies compliance and
+# writes the final position commands to hardware.
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    hand_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    force_torque_sensor_broadcaster:
+      type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+
+    admittance_controller:
+      type: admittance_controller/AdmittanceController
+
+    ocs2_arm_controller:
+      type: ocs2_arm_controller/Ocs2ArmController
+
+
+hand_controller:
+  ros__parameters:
+    joint: gripper_joint
+    use_effort_interface: false
+
+
+force_torque_sensor_broadcaster:
+  ros__parameters:
+    frame_id: ft_sensor
+    sensor_name: ft_sensor
+    sensor_filter_chain:
+      filter1:
+        name: gravity_compensation
+        type: control_filters/GravityCompensationWrench
+        params:
+          world_frame: base_link
+          sensor_frame: ft_sensor
+          tool:
+            CoG: [0.0, 0.0, 0.0]
+            gravity_field: [0.0, 0.0, 0.0]
+            mass: 0.0
+      filter2:
+        name: low_pass_filter
+        type: control_filters/LowPassFilterWrench
+        params:
+          cutoff_frequency: 10.0
+          damping_frequency: 10.0
+          damping_intensity: 1.0
+          sampling_frequency: 100.0
+
+
+admittance_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    chainable_command_interfaces:
+      - position
+
+    ft_sensor:
+      name: ft_sensor
+      frame:
+        id: ft_sensor
+      filter_coefficient: 0.05
+      wrench_deadzone:
+        force: 1.0
+        torque: 0.2
+      bias:
+        force: [0.0, 0.0, 0.0]
+        torque: [0.0, 0.0, 0.0]
+
+    control:
+      frame:
+        id: eef
+
+    fixed_world_frame:
+      frame:
+        id: base_link
+
+    gravity_compensation:
+      frame:
+        id: ft_sensor
+      CoG:
+        pos: [0.0, 0.0, 0.0]
+        force: 0.0
+
+    admittance:
+      selected_axes: [true, true, true, true, true, true]
+      mass: [5.0, 5.0, 6.0, 2.0, 2.0, 2.0]                # Mass (虚拟转动惯量)
+      damping_ratio: [2.0, 2.0, 2.2, 0.8, 0.8, 0.8]       # Damping Ratio (阻尼)
+      stiffness: [220.0, 220.0, 220.0, 5.0, 5.0, 5.0]     # Stiffness (旋转刚度)
+      joint_damping: 5.0
+
+    kinematics:
+      plugin_name: kinematics_interface_kdl/KinematicsInterfaceKDL
+      plugin_package: kinematics_interface
+      base: base_link
+      tip: eef
+      alpha: 0.01
+
+    enable_parameter_update_without_reactivation: true
+
+
+ocs2_arm_controller:
+  ros__parameters:
+    update_rate: 100
+    robot_name: cr5
+
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    state_interfaces:
+      - position
+
+    future_time_offset: 1.0
+    reference_output_mode: true
+    reference_topic: /admittance_controller/joint_references
+
+    home_1: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    home_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    rest_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+
+    hold_use_current_position_on_enter: true
+    hold_position_threshold: 0.1
+    hold_allow_threshold_rebaseline: false

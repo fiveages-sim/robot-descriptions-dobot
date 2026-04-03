@@ -3,8 +3,13 @@ controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
 
-    arm_controller:
+    # Joint trajectory controller (for position control when not in admittance mode)
+    joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
+
+    # Admittance controller for force control
+    admittance_controller:
+      type: admittance_controller/AdmittanceController
 
     hand_controller:
       type: adaptive_gripper_controller/AdaptiveGripperController
@@ -24,15 +29,16 @@ controller_manager:
     cartesian_compliance_controller:
       type: cartesian_compliance_controller/CartesianComplianceController
 
-#    # Interactive marker handle for RViz (enables drag-and-drop control)
-#    motion_control_handle:
-#      type: cartesian_controller_handles/MotionControlHandle
+    # Interactive marker handle for RViz (enables drag-and-drop control)
+    motion_control_handle:
+      type: cartesian_controller_handles/MotionControlHandle
 
     force_torque_sensor_broadcaster:
       type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
 
 
-arm_controller:
+# Joint trajectory controller configuration
+joint_trajectory_controller:
   ros__parameters:
     command_interfaces:
       - position
@@ -46,6 +52,73 @@ arm_controller:
       - joint4
       - joint5
       - joint6
+
+
+# Admittance controller configuration
+admittance_controller:
+  ros__parameters:
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    chainable_command_interfaces:
+      - position
+      - velocity
+
+    ft_sensor:
+      name: ft_sensor
+      frame:
+        id: "ft_sensor"
+      filter_coefficient: 0.05
+      wrench_deadzone:
+        force: 1.0
+        torque: 0.2
+      bias:
+        force: [0.0, 0.0, 0.0]
+        torque: [0.0, 0.0, 0.0]
+
+    control:
+      frame:
+        id: "eef"
+
+    fixed_world_frame:
+      frame:
+        id: "base_link"
+
+    gravity_compensation:
+      frame:
+        id: "ft_sensor"
+      CoG:
+        pos: [0.0, 0.0, 0.0]
+        force: 0.0
+
+    admittance:
+      selected_axes: [true, true, true, false, false, false]
+      mass: [10.0, 10.0, 10.0, 1.0, 1.0, 1.0]
+      damping_ratio: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+      stiffness: [50.0, 50.0, 50.0, 5.0, 5.0, 5.0]
+      joint_damping: 5.0
+
+    kinematics:
+      plugin_name: "kinematics_interface_kdl/KinematicsInterfaceKDL"
+      plugin_package: "kinematics_interface"
+      base: "base_link"
+      tip: "eef"
+      alpha: 0.01
+
+    enable_parameter_update_without_reactivation: true
+
 
 hand_controller:
   ros__parameters:
@@ -76,8 +149,9 @@ ocs2_arm_controller:
     future_time_offset: 1.0
 
     # Control parameters
-    home_pos: [2.9718, 0.06917, 1.43946, 0.10000, -1.5708, 0.187]
-    rest_pos: [3.14, 0.0, 1.5708, 0.0, -1.5708, 0.0]
+    home_1: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    home_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    rest_pos: [3.66519, 0.0, -1.5708, 0.0, 1.5708, 0.0]
 
 cartesian_motion_controller:
   ros__parameters:
@@ -185,44 +259,47 @@ cartesian_compliance_controller:
     ft_sensor_topic: "/force_torque_sensor_broadcaster/wrench_filtered"
 
     stiffness:  # w.r.t. compliance_ref_link
-        trans_x: 140.0
-        trans_y: 140.0
-        trans_z: 140.0
-        rot_x: 20.0
-        rot_y: 20.0
-        rot_z: 20.0
+        trans_x: 35.0
+        trans_y: 35.0
+        trans_z: 35.0
+        # Lower rotational stiffness to make torque-driven rotation easier.
+        rot_x: 0.5
+        rot_y: 0.5
+        rot_z: 0.3
 
     solver:
-        error_scale: 0.05
-        iterations: 1
+        # Increase internal response for compliance (especially rotation).
+        error_scale: 0.1  # 控制算法每一步走的距离
+        iterations: 1     # 每个控制周期的内部迭代次数
         publish_state_feedback: true  # Enable pose/twist feedback publishing
         forward_dynamics:
-          link_mass: 0.01
+          link_mass: 0.01 # 它定义了机器人“摸起来有多重”。数值越小，同样的力产生的加速度越大，机器人越“灵敏”；数值越大，机器人越“稳重”。
 
     pd_gains:
-        trans_x: {p: 1.0}
-        trans_y: {p: 1.0}
-        trans_z: {p: 1.0}
-        rot_x: {p: 0.5}
-        rot_y: {p: 0.5}
-        rot_z: {p: 0.5}
+        trans_x: {p: 2.0}
+        trans_y: {p: 2.0}
+        trans_z: {p: 2.0}
+        # Boost rotational gains so orientation commands / torque are not too weak.
+        rot_x: {p: 8.0}
+        rot_y: {p: 8.0}
+        rot_z: {p: 12.0}
 
-## Interactive marker handle configuration
-#motion_control_handle:
-#  ros__parameters:
-#    # Robot kinematics configuration (must match cartesian_motion_controller)
-#    end_effector_link: "eef"  # End effector link name
-#    robot_base_link: "base_link"  # Base link name
-#    ft_sensor_ref_link: "ft_sensor"  # Force/torque sensor reference link (use end_effector if no sensor)
-#
-#    # Joint configuration
-#    joints:
-#      - joint1
-#      - joint2
-#      - joint3
-#      - joint4
-#      - joint5
-#      - joint6
+# Interactive marker handle configuration
+motion_control_handle:
+  ros__parameters:
+    # Robot kinematics configuration (must match cartesian_motion_controller)
+    end_effector_link: "eef"  # End effector link name
+    robot_base_link: "base_link"  # Base link name
+    ft_sensor_ref_link: "ft_sensor"  # Force/torque sensor reference link (use end_effector if no sensor)
+
+    # Joint configuration
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
 
 force_torque_sensor_broadcaster:
   ros__parameters:
@@ -236,11 +313,11 @@ force_torque_sensor_broadcaster:
           world_frame: "base_link"      # 固定世界坐标系，重力场定义在此坐标系
           sensor_frame: "ft_sensor"     # 传感器坐标系，质心位置定义在此坐标系
           tool:
-            CoG: [0.0, 0.0, 0.04]       # 质心位置 [x, y, z] (m)，相对于ft_sensor坐标系
+            CoG: [0.0, 0.0, 0.0] # 质心位置 [x, y, z] (m)，相对于ft_sensor坐标系-0.01285  0.00209 0.14197
                                         # 根据实际夹爪质心位置调整（z方向通常在传感器上方）
-            gravity_field: [0.0, 0.0, -9.81]  # 重力场向量 [gx, gy, gz] (m/s²)，在base_link坐标系中
+            gravity_field: [0.0, 0.0, 0.0]  # 重力场向量 [gx, gy, gz] (m/s²)，在base_link坐标系中
                                         # 默认值：[0, 0, -9.81] 表示标准重力向下
-            mass: 0.4                   # 工具质量 (kg)，根据实际夹爪质量调整
+            mass: 0.399                   # 工具质量 (kg)，根据实际夹爪质量调整
                                         # 例如：AG2F90-C 夹爪约 0.3-0.5 kg
       filter2:
         name: low_pass_filter

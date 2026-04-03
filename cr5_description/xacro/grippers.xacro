@@ -17,20 +17,50 @@
 	<xacro:if value="${'$(arg type)' == 'AG2F90-C'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
 		<xacro:AG2F90-C name="" use_flange="true"/>
-		<joint name="gripper_fix" type="fixed">
+
+		<link name="ft_sensor">
+			<visual>
+				<geometry>
+					<mesh filename="file://$(find cr5_description)/meshes/visual/ft_sensor.obj"/>
+				</geometry>
+			</visual>
+		</link>
+
+		<joint name="ft_sensor_joint" type="fixed">
+			<origin rpy="0 0 ${PI}"/>
 			<parent link="Link6"/>
+			<child link="ft_sensor"/>
+		</joint>
+
+		<joint name="gripper_fix" type="fixed">
+			<parent link="ft_sensor"/>
 			<child link="flange"/>
-			<origin rpy="0 0 ${-PI/2}"/>
+			<origin xyz="0 0 0.037" rpy="0 0 ${-PI/2}"/>
 		</joint>
 	</xacro:if>
 
 	<xacro:if value="${'$(arg type)' == 'AG2F90-C-Soft'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
 		<xacro:AG2F90-C name="" use_flange="true" pad="soft"/>
-		<joint name="gripper_fix" type="fixed">
+
+		<link name="ft_sensor">
+			<visual>
+				<geometry>
+					<mesh filename="file://$(find cr5_description)/meshes/visual/ft_sensor.obj"/>
+				</geometry>
+			</visual>
+		</link>
+
+		<joint name="ft_sensor_joint" type="fixed">
+			<origin rpy="0 0 ${PI}"/>
 			<parent link="Link6"/>
+			<child link="ft_sensor"/>
+		</joint>
+
+		<joint name="gripper_fix" type="fixed">
+			<parent link="ft_sensor"/>
 			<child link="flange"/>
-			<origin rpy="0 0 ${PI/2}"/>
+			<origin xyz="0 0 0.037" rpy="0 0 ${PI/2}"/>
 		</joint>
 	</xacro:if>
 
@@ -55,7 +85,7 @@
 		</link>
 
 		<joint name="ft_sensor_joint" type="fixed">
-			<origin rpy="0 0 ${PI}"/>
+			<origin rpy="0 0 ${-PI/2}"/>
 			<parent link="Link6"/>
 			<child link="ft_sensor"/>
 		</joint>

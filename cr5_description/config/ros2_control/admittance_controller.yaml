@@ -1,0 +1,148 @@
+# 导纳控制器配置文件
+# 适用于 CR5 机械臂 + FT-90C 力矩传感器
+# 该控制器实现导纳控制：读取力传感器数据，基于导纳定律计算期望运动，输出关节位置指令
+
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # 控制频率 (Hz)
+
+    # 关节轨迹控制器 (非导纳模式时用于位置控制)
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    # 导纳控制器 (用于力控)
+    admittance_controller:
+      type: admittance_controller/AdmittanceController
+
+    # 夹爪控制器
+    hand_controller:
+      type: adaptive_gripper_controller/AdaptiveGripperController
+
+    # 关节状态广播器 (始终需要)
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+
+# 关节轨迹控制器配置
+joint_trajectory_controller:
+  ros__parameters:
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+
+# 导纳控制器配置
+admittance_controller:
+  ros__parameters:
+    # 关节配置 (必须与硬件接口匹配)
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+
+    # 命令接口 - 位置控制以获得平滑运动
+    command_interfaces:
+      - position
+
+    # 状态接口 - 需要位置用于逆运动学，速度可选
+    state_interfaces:
+      - position
+      - velocity
+
+    # 可链式命令接口 (用于控制器串联)
+    chainable_command_interfaces:
+      - position
+      - velocity
+
+    # 力矩传感器配置
+    ft_sensor:
+      name: ft_sensor
+      frame:
+        id: "ft_sensor"
+      # 滤波器系数 (指数滤波器，值越小越平滑，值越大响应越快)
+      filter_coefficient: 0.05
+      # 死区阈值 (用于滤除传感器噪声)
+      wrench_deadzone:
+        force: 1.0      # 各轴力死区 (N)
+        torque: 0.2     # 各轴力矩死区 (Nm)
+      # 传感器偏置 (启动时通过 SixForceHome 服务清零)
+      bias:
+        force: [0.0, 0.0, 0.0]
+        torque: [0.0, 0.0, 0.0]
+
+    # 控制坐标系配置
+    control:
+      frame:
+        id: "eef"  # 末端执行器坐标系，用于导纳计算
+
+    # 固定世界坐标系 (用于重力补偿)
+    fixed_world_frame:
+      frame:
+        id: "base_link"
+
+    # 重力补偿配置
+    # 工具 (夹爪 + 负载) 安装在力传感器下方
+    gravity_compensation:
+      frame:
+        id: "ft_sensor"
+      CoG:
+        pos: [-0.01285, 0.00209, 0.14197]  # 工具质心在 ft_sensor 坐标系中的位置 (m)
+        # 可选：显式重力向量
+        # force_vector: [0.0, 0.0, -3.92]  # ~0.4kg * 9.81
+        force: 3.92  # 工具重力 (N) = 质量 * 9.81
+
+    # 导纳定律参数
+    # M * a + D * v + S * x = F
+    # 其中：M=质量, D=阻尼, S=刚度, F=力, a=加速度, v=速度, x=位移
+    admittance:
+      # 启用导纳控制的轴 [x, y, z, rx, ry, rz]
+      # true = 力控响应, false = 位置保持
+      selected_axes: [true, true, true, false, false, false]
+
+      # 各轴质量 (值越大惯性越大，响应越平滑)
+      # 单位：平移为 kg，旋转为 kg*m²
+      mass: [10.0, 10.0, 10.0, 1.0, 1.0, 1.0]
+
+      # 阻尼比 (zeta = D / (2 * sqrt(M * S)))
+      # 1.0 = 临界阻尼
+      # <1.0 = 欠阻尼 (会震荡)
+      # >1.0 = 过阻尼 (响应慢)
+      # 典型范围: 0.5 - 2.0
+      damping_ratio: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+      # 刚度值 - 越大响应越硬，越小越柔顺
+      # 单位：平移为 N/m，旋转为 Nm/rad
+      stiffness: [50.0, 50.0, 50.0, 5.0, 5.0, 5.0]
+
+      # 关节阻尼 (用于内部关节控制)
+      joint_damping: 5.0
+
+    # 运动学插件配置 (用于逆运动学计算)
+    kinematics:
+      plugin_name: "kinematics_interface_kdl/KinematicsInterfaceKDL"
+      plugin_package: "kinematics_interface"
+      base: "base_link"
+      tip: "eef"
+      alpha: 0.01  # 雅可比矩阵伪逆的阻尼系数
+
+    # 允许控制器运行时更新参数 (无需重新激活)
+    enable_parameter_update_without_reactivation: true
+
+
+# 夹爪控制器配置
+hand_controller:
+  ros__parameters:
+    joint: gripper_joint
+    use_effort_interface: false

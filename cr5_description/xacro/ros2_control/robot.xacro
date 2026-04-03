@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="CR5">
     <xacro:arg name="ros2_control_hardware_type" default="mock_components"/>
+    <xacro:arg name="force_control_mode" default="ros2_control_controllers"/>
+    <xacro:arg name="enable_servoj_stream" default="true"/>
+    <xacro:arg name="allow_servoj_with_force_drag" default="false"/>
+    <xacro:arg name="enable_gripper_io" default="true"/>
 
     <link name="world"/>
 
@@ -35,6 +39,12 @@
                 <param name="aheadtime">20</param>
                 <param name="speed_factor">1</param>
                 <param name="servo_time">0.02</param>
+                <param name="force_control_mode">$(arg force_control_mode)</param>
+                <param name="force_service_prefix">dobot_force_control/srv</param>
+                <param name="enable_servoj_stream">$(arg enable_servoj_stream)</param>
+                <param name="allow_servoj_with_force_drag">$(arg allow_servoj_with_force_drag)</param>
+                <param name="enable_gripper_io">$(arg enable_gripper_io)</param>
+                <param name="gripper_read_frequency_divider">100</param>
             </xacro:if>
         </hardware>
 
@@ -44,7 +54,7 @@
         <xacro:if value="${'$(arg ros2_control_hardware_type)' == 'real'}">
             <!-- 真实硬件模式：使用简单的gripper joint，仅有位置接口 -->
 
-            <xacro:if value="${'$(arg type)' != 'empty'}">
+            <xacro:if value="${('$(arg type)' == 'ft-90c' or '$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft' or '$(arg type)' == 'robotiq85') and '$(arg enable_gripper_io)' == 'true'}">
                 <joint name="gripper_joint">
                     <command_interface name="position"/>
                     <state_interface name="position">
@@ -53,7 +63,7 @@
                 </joint>
             </xacro:if>
 
-            <xacro:if value="${'$(arg type)' == 'ft-90c'}">
+            <xacro:if value="${'$(arg type)' == 'ft-90c' or '$(arg type)' == 'AG2F90-C' or '$(arg type)' == 'AG2F90-C-Soft' or '$(arg type)' == 'robotiq85'}">
                 <!-- 六维力传感器定义 -->
                 <sensor name="ft_sensor">
                     <state_interface name="force.x"/>
