@@ -4,6 +4,8 @@
   <xacro:arg name="collider" default="convex"/>
   <xacro:arg name="type" default="empty"/>
   <xacro:arg name="scene" default=""/>
+  <!-- false: ros2_control / 可视化；OCS2 planning 由 robot_common_launch 注入 eef_fixed_joints:=true -->
+  <xacro:arg name="eef_fixed_joints" default="false"/>
 
   <!--
     CR5 的 type 不仅用于末端夹爪，也可承载场景(scene)信息（类似 m6_ccs_description 的机制）。

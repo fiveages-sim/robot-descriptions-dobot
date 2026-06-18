@@ -3,13 +3,14 @@ model_information {
   manipulatorModelType     0      // 0: Default-arm, 1: Wheel-based manipulator, 2: Floating-arm manipulator, 3: Fully actuated floating-arm manipulator
   
   ; motion joints in the URDF to consider fixed
+  ; Dynamic planning URDF sets eef_fixed_joints + chassis_joints_movable=false in xacro.
   removeJoints {
   }
 
   ; base frame of the robot (from URDF)
   baseFrame                       "base_link"
   ; end-effector frame of the robot (from URDF)
-  eeFrame                         "tcp" // gripper_base
+  eeFrame                         "eef" // gripper_base
 }
 
 model_settings

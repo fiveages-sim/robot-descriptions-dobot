@@ -23,12 +23,6 @@
 				</collision>
 			</xacro:if>
 			<xacro:if value="${collider == 'simple'}">
-				<collision>
-					<origin xyz="0 0 0.05"/>
-					<geometry>
-						<cylinder length="0.1" radius="0.1"/>
-					</geometry>
-				</collision>
 				<xacro:if value="${prefix == ''}">
 					<collision>
 						<origin xyz="0 0 -0.025"/>

@@ -5,21 +5,44 @@
 	  夹爪类型由 cr5_description/xacro/robot.xacro 解析得到：
 	  - selected_gripper_type: empty / robotiq85 / AG2F90-C(-Soft) / AG2F120S ...
 	  - selected_scene: 可选（当前文件不使用）
+
+	  OCS2 planning URDF: eef_fixed_joints:=true 时冻结夹爪驱动关节（见 robot_common_launch planning mappings）。
 	-->
+
+	<xacro:property name="eef_fixed" value="$(arg eef_fixed_joints)"/>
+	<xacro:property name="kinematic_only" value="${str(eef_fixed).lower() == 'true'}"/>
+
+	<!-- 无夹爪：planning 需要在 Link6 上提供 OCS2 eeFrame -->
+	<xacro:if value="${selected_gripper_type == 'empty' and kinematic_only}">
+		<link name="eef"/>
+		<joint name="eef_joint" type="fixed">
+			<parent link="Link6"/>
+			<child link="eef"/>
+		</joint>
+	</xacro:if>
 
 	<!-- 根据type参数决定使用哪种夹爪 -->
 	<xacro:if value="${selected_gripper_type == 'robotiq85'}">
-		<xacro:include filename="$(find robotiq_description)/xacro/2F85.xacro"/>
-		<xacro:Robotiq85 name=""/>
-		<joint name="gripper_fix" type="fixed">
-			<parent link="Link6"/>
-			<child link="gripper_base"/>
-		</joint>
+		<xacro:if value="${kinematic_only}">
+			<link name="eef"/>
+			<joint name="eef_joint" type="fixed">
+				<parent link="Link6"/>
+				<child link="eef"/>
+			</joint>
+		</xacro:if>
+		<xacro:unless value="${kinematic_only}">
+			<xacro:include filename="$(find robotiq_description)/xacro/2F85.xacro"/>
+			<xacro:Robotiq85 name=""/>
+			<joint name="gripper_fix" type="fixed">
+				<parent link="Link6"/>
+				<child link="gripper_base"/>
+			</joint>
+		</xacro:unless>
 	</xacro:if>
 
 	<xacro:if value="${selected_gripper_type == 'AG2F90-C'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
-		<xacro:AG2F90-C name="" use_flange="true"/>
+		<xacro:AG2F90-C name="" use_flange="true" kinematic_only="${kinematic_only}"/>
 		<joint name="gripper_fix" type="fixed">
 			<parent link="Link6"/>
 			<child link="flange"/>
@@ -29,26 +52,27 @@
 
 	<xacro:if value="${selected_gripper_type == 'AG2F90-C-Soft'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F90-C.xacro"/>
-		<xacro:AG2F90-C name="" use_flange="true" pad="soft"/>
+		<xacro:AG2F90-C name="" use_flange="true" pad="soft" kinematic_only="${kinematic_only}"/>
 		<joint name="gripper_fix" type="fixed">
 			<parent link="Link6"/>
 			<child link="flange"/>
 			<origin rpy="0 0 ${PI/2}"/>
 		</joint>
 
-		<link name="hand_camera"/>
+		<xacro:unless value="${kinematic_only}">
+			<link name="hand_camera"/>
 
-		<joint name="hand_camera_joint" type="fixed">
-			<parent link="Link6"/>
-			<child link="hand_camera"/>
-			<origin xyz="-0.0232323851 -0.0658349999 0.1368881312" rpy="-0.1206332889 0.0085965555 0.0669556163"/>
-		</joint>
-
+			<joint name="hand_camera_joint" type="fixed">
+				<parent link="Link6"/>
+				<child link="hand_camera"/>
+				<origin xyz="-0.0232323851 -0.0658349999 0.1368881312" rpy="-0.1206332889 0.0085965555 0.0669556163"/>
+			</joint>
+		</xacro:unless>
 	</xacro:if>
 
 	<xacro:if value="${selected_gripper_type == 'AG2F120S'}">
 		<xacro:include filename="$(find changingtek_description)/xacro/AG2F120S.xacro"/>
-		<xacro:AG2F120S name=""/>
+		<xacro:AG2F120S name="" kinematic_only="${kinematic_only}"/>
 		<joint name="gripper_fix" type="fixed">
 			<parent link="Link6"/>
 			<child link="gripper_base"/>
