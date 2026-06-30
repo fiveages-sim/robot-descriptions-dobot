@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="DobotCR5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="CR5" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="collider" default="convex"/>
   <xacro:arg name="type" default="empty"/>
   <xacro:arg name="scene" default=""/>

@@ -3,9 +3,6 @@ controller_manager:
   ros__parameters:
     update_rate: 100  # Hz
 
-    arm_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
-
     gripper_controller:
       type: adaptive_gripper_controller/AdaptiveGripperController
 
@@ -35,7 +32,7 @@ gripper_controller:
   ros__parameters:
     joint: gripper_joint
     force_feedback_ratio: 0.1
-    force_threshold: 0.5
+    force_threshold: 0.01
 
 ocs2_arm_controller:
   ros__parameters:
@@ -60,5 +57,4 @@ ocs2_arm_controller:
     future_time_offset: 1.0
 
     # Control parameters
-    home_pos: [0.0, 0.0, -1.5708, 0.0, 1.5708, 0.0]
-    rest_pos: [-3.1415926, 0.0, -1.5708, 0.0, 1.5708, 0.0]
+    home_1: [-3.14, 0.0, -1.57, 0.0, 1.57, 0.0]
