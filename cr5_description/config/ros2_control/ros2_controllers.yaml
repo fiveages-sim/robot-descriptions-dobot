@@ -55,6 +55,17 @@ ocs2_arm_controller:
 
     # Future time offset for trajectory prediction (in seconds)
     future_time_offset: 1.0
+    movel_duration: 0.5
+    movel_sample_interval: 0.04
+    movel_max_linear_velocity: 0.3
+    movel_max_linear_acceleration: 1.0
+    movel_max_linear_jerk: 2.0
+    movel_max_angular_velocity: 1.0
+    movel_max_angular_acceleration: 2.0
+    movel_max_angular_jerk: 4.0
+    movel_auto_extend_duration: true
+    movej_interpolation_type: doubles
+    home_interpolation_type: doubles
 
     # Control parameters
     home_1: [3.14, 0.0, -1.57, 0.0, 1.57, 0.0]
