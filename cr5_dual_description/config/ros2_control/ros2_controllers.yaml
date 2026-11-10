@@ -49,14 +49,14 @@ ocs2_arm_controller:
     future_time_offset: 1.1
 
     # Control parameters
-    # home_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    # home_1: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
     #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
-    home_pos: [ 2.1519911227695774, 0.5782979518398085, 1.8800245044533186, 0.7719719900296106, 2.120467240171125, -1.57,
+    home_1: [ 2.1519911227695774, 0.5782979518398085, 1.8800245044533186, 0.7719719900296106, 2.120467240171125, -1.57,
                 -2.1519911227695774, -0.5782979518398085, -1.8800245044533186, -0.7719719900296106, -2.120467240171125, -1.57 ]
     
-    # rest_pos: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
+    # home_2: [left_joint1, left_joint2, left_joint3, left_joint4, left_joint5, left_joint6,
     #            right_joint1, right_joint2, right_joint3, right_joint4, right_joint5, right_joint6]
-    rest_pos: [ 1.3447057466942642, 0.9200135210015483, 1.223138332514968, 0.7967627461708476, -0.19084332725780095, 0.0,
+    home_2: [ 1.3447057466942642, 0.9200135210015483, 1.223138332514968, 0.7967627461708476, -0.19084332725780095, 0.0,
                 -1.3447057466942642, -0.9200135210015483, -1.223138332514968, -0.7967627461708476, 0.19084332725780095, 0.0, ]
 
 # Left Hand Controller (AG2F90-C-Soft)

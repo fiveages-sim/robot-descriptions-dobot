@@ -55,8 +55,8 @@ ocs2_arm_controller:
     future_time_offset: 1.0
 
     # Control parameters
-    home_pos: [4.157, 0.384, -1.337, -0.408, 1.449, 0.977]
-    rest_pos: [4.465, 0.609, -1.763, -0.169, 0.895, 1.339]
+    home_1: [4.157, 0.384, -1.337, -0.408, 1.449, 0.977]
+    home_2: [4.465, 0.609, -1.763, -0.169, 0.895, 1.339]
     movej_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
     home_interpolation_type: "linear"  # "tanh"（默认）或 "linear"
 

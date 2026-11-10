@@ -204,21 +204,21 @@ Edit `cr5_description/config/ros2_control/ros2_controllers.yaml` with the record
 ocs2_arm_controller:
   ros__parameters:
     # Set these based on your robot's actual safe positions
-    home_pos: [0.0, 0.0, -1.5708, 0.0, 1.5708, 0.0]        # Home position in radians
-    rest_pos: [-3.1415926, 0.0, -1.5708, 0.0, 1.5708, 0.0] # Rest position in radians
+    home_1: [0.0, 0.0, -1.5708, 0.0, 1.5708, 0.0]         # Home position in radians
+    home_2: [-3.1415926, 0.0, -1.5708, 0.0, 1.5708, 0.0]  # Rest / alternate home in radians
 ```
 
 **Tips for Setting Poses:**
-- **Home Pose**: Should be reachable from any position without collisions
-- **Rest Pose**: Arm should be in a compact, stable configuration
+- **home_1**: Should be reachable from any position without collisions
+- **home_2**: Compact/stable alternate configuration (former rest pose)
 - Units are in **radians** (π ≈ 3.1415926, 90° = π/2 ≈ 1.5708)
 - Test movements slowly first by setting `speed_factor: 50` during initial testing
 
 #### 5. Restart and Use the System
 
-After configuring the home and rest poses, **restart** the controller to apply the new settings and begin actual use:
+After configuring `home_1` / `home_2`, **restart** the controller to apply the new settings and begin actual use:
 
-**Important:** Make sure you have updated `home_pos` and `rest_pos` in step 4 before proceeding!
+**Important:** Make sure you have updated `home_1` and `home_2` in step 4 before proceeding!
 
 **Launch Command:**
 ```bash
@@ -239,7 +239,7 @@ The system will now use your configured home and rest positions for safe operati
 |-------|----------|
 | Cannot connect to robot | Check IP address, network connection, and firewall settings |
 | Robot moves too fast/jerky | Reduce `speed_factor` and `gain` parameters |
-| Controller fails to start | Verify `home_pos` and `rest_pos` are within joint limits |
+| Controller fails to start | Verify `home_1` and `home_2` are within joint limits |
 | Trajectory tracking error | Increase `aheadtime` or reduce motion speed |
 | Robot doesn't respond | Check if robot is in servo mode and emergency stop is not pressed |
 
@@ -248,7 +248,7 @@ The system will now use your configured home and rest positions for safe operati
 ⚠️ **Always follow these safety guidelines:**
 1. Keep the emergency stop within reach
 2. Start with `speed_factor: 10` for initial testing
-3. Verify `home_pos` and `rest_pos` are collision-free before first use
+3. Verify `home_1` and `home_2` are collision-free before first use
 4. Monitor the first few movements closely
 5. Ensure workspace is clear of obstacles
 6. Follow Dobot's safety guidelines and local regulations
